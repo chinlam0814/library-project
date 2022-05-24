@@ -1,0 +1,36 @@
+.table-list {
+    margin: 0 auto;
+    margin-top: 50px;
+    margin-bottom: 100px;
+    width: 80%;
+}
+
+.list-header {
+    display: flex;
+}
+
+.add-icon {
+    margin: 30px;
+    margin-right: 0px;
+    margin-top: 8px;
+    margin-bottom: 15px;
+    width: 7%;
+}
+
+.delete-user-button {
+    margin: 0;
+    padding: 0;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    color: red;
+}
+
+.update-user-button {
+    margin-left: 20px;
+    padding: 0;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    color: rgba(13, 158, 61, 0.478);
+}

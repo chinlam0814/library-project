@@ -1,0 +1,60 @@
+.book-list-whole-box {
+    margin: 10px;
+    padding: 10px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    display: inline-block;
+    text-align: center;
+}
+
+.border-box {
+    background-color: black;
+    margin-top: 15px;
+}
+
+.bookinfo-whole-box {
+    border: 3px solid;
+    border-color:burlywood;
+    border-radius: 30px;
+    margin: 20px;
+    padding: 20px;
+    position: relative;
+}
+
+.bookinfo-box{
+    border: 2px solid;
+    border-color:darksalmon;
+    border-radius: 20px;
+    margin: 20px;
+    padding: 10px;
+    float: none;
+}
+
+.book-image {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.bookinfo-link {
+    text-decoration: none;
+    color: black;
+}
+
+.title-box {
+    font-family: STKaiti;
+    font-weight: 900;
+    font-size: 90px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.author-box {
+    font-family: STFangsong;
+    font-weight: 900;
+    font-size: 90px;
+}
+
+.titleicon {
+    width: 10%;
+}

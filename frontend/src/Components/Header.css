@@ -1,0 +1,120 @@
+.homeicon {
+    margin: 20px;
+    width: 4%;
+}
+
+.loginicon {
+    margin: 20px;
+    width: 2%;
+    float: right;
+    margin-top: 40px;
+    margin-right: 40px;
+}
+
+.userlisticon {
+    margin: 20px;
+    width: 2%;
+    float: right;
+    margin-top: 40px;
+    margin-right: 20px;
+}
+
+.dataicon {
+    margin: 20px;
+    width: 2%;
+    float: right;
+    margin-top: 40px;
+    margin-right: 20px;
+}
+
+.addbookicon {
+    margin: 20px;
+    width: 2%;
+    float: right;
+    margin-top: 42px;
+    margin-right: 20px;
+}
+
+.bookicon {
+    margin: 20px;
+    width: 2%;
+    float: right;
+    margin-top: 40px;
+    margin-right: 20px;
+}
+
+.usericon {
+    margin: 20px;
+    width: 2%;
+    float: right;
+    margin-top: 40px;
+    margin-right: 20px;
+}
+
+.logouticon {
+    margin: 20px;
+    width: 2%;
+    float: right;
+    margin-top: 40px;
+    margin-right: 40px;
+}
+
+.input-box {
+    margin: 20px;
+    width: 20%;
+    float: right;
+    margin-top: 50px;
+    margin-right: 20px;
+}
+
+.searchicon {
+    margin: 0px;
+    width: 2%;
+    float: right;
+    margin-top: 50px;
+    margin-right: 240px;
+}
+
+.user-input-box {
+    margin: 20px;
+    width: 20%;
+    float: right;
+    margin-top: 50px;
+    margin-right: 20px;
+}
+
+.user-searchicon {
+    margin: 0px;
+    width: 2%;
+    float: right;
+    margin-top: 50px;
+    margin-right: 450px;
+}
+
+.admin-input-box {
+    margin: 20px;
+    width: 20%;
+    float: right;
+    margin-top: 50px;
+    margin-right: 20px;
+}
+
+.admin-searchicon {
+    margin: 0px;
+    width: 2%;
+    float: right;
+    margin-top: 50px;
+    margin-right: 160px;
+}
+
+.search-whole-box {
+    width: 30%;
+    margin-left: 200px;
+    margin-top: -50px;
+    margin-bottom: 30px;
+}
+
+.hr-design {
+    margin: 10px;
+    background-color: black;
+}
