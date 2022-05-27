@@ -5,7 +5,7 @@ import api from './Components/Api'
 import Cookies from 'js-cookie'
 import Footer from './Components/Footer'
 import Header from './Components/Header'
-import { Descriptions, Radio, Button, Modal, Form, Input } from 'antd';
+import { Descriptions, Radio, Button, Modal, Form, Input, message } from 'antd';
 
 const ProfilePage = () => {
     let id = Cookies.get('user_id')
@@ -69,9 +69,7 @@ const ProfilePage = () => {
             }
         }
         else{
-            console.log('password not same')
-            setPassword('')
-            setPassword1('')
+            message.error('新密码和确认密码不一致')
         }
     }
 
@@ -187,57 +185,6 @@ const ProfilePage = () => {
         )
     }
 
-    /*return(
-        <div>
-            <Header />
-                <div className= 'profile-page'>
-                    <StudentValue />
-                    <h2>学生信息</h2>
-                    
-                    <div className = 'name-box'>
-                        <h3>用户名：</h3>
-                        <span>{student.username}</span>
-                    </div>
-                    <div className = 'idnumber-box'>
-                        <h3>学号：</h3>
-                        <span>{student.number}</span>
-                    </div>
-                    <div className = 'borrownum-box'>
-                        <h3>正在借阅书籍数量：</h3>
-                        <span>{borrownum.length}</span>
-                    </div>
-
-                    <div className = 'resetpassword-box'>
-                        <h3>修改密码：</h3>
-                        <div className='password-form'>
-                            <input 
-                                name = 'password'
-                                value={password}
-                                onChange={event => setPassword(event.target.value)}
-                                type='password' 
-                                id = 'password'
-                                placeholder='输入密码' required/>
-                        </div>
-
-                        <div className='password1-form'>
-                            <input 
-                                name = 'password1'
-                                value={password1}
-                                onChange={event => setPassword1(event.target.value)}
-                                type='password' 
-                                id = 'password1'
-                                placeholder='输入确认密码' required/>
-                        </div>
-
-                        <div className='reset-password-submit-box'>
-                            <button type='submit' onClick={resetpasswordAction}>修改</button>
-                        </div>
-                    </div>
-                </div>
-            <Footer />
-        </div>
-    )*/
-
     return(
         <div>
             <Header />
@@ -248,6 +195,7 @@ const ProfilePage = () => {
                 >
                     <Descriptions.Item label="学生号" span={5}>{student.number}</Descriptions.Item>
                     <Descriptions.Item label="姓名" span={5}>{student.username}</Descriptions.Item>
+                    <Descriptions.Item label="正在借阅书籍的数量" span={5}>{borrownum.length}</Descriptions.Item>
                 </Descriptions>
                 <br />
 

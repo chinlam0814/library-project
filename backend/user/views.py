@@ -61,7 +61,7 @@ def user_login(request):
 				return returnJson([dict(admin.body())], 0, {'user': 'Admin', 'user_id': admin.id, 'admin_idnumber': admin.number, 'username' : username})
 			except Admin.DoesNotExist:
 				logout(request)
-				return returnJson([],403)
+				return returnJson([],404)
 	else:
 		return returnJson([], 404, {'username': username, 'password': password})
 
@@ -142,7 +142,7 @@ def edit_student_info(request, pk):
 	except Student.DoesNotExist:
 		return returnJson([], 0, 0, 404)
 
-	if request.method == 'PUT':
+	if request.method == 'POST':
 		data = json.loads(request.body)
 		
 		student.number = data["number"]
@@ -203,3 +203,29 @@ def student_reset_password(request, pk):
 		student.save()
 		
 		return returnJson([dict(student.body())])
+
+def admin_forget_password(request):
+	data = json.loads(request.body)
+	
+	try:
+		admin = Admin.objects.get(number=data["number"])
+	except Admin.DoesNotExist:
+		return returnJson([], 404)
+
+	admin.set_password(data["password"])
+	admin.save()
+		
+	return returnJson([dict(admin.body())])
+
+def student_forget_password(request):
+	data = json.loads(request.body)
+	
+	try:
+		student = Student.objects.get(number=data["number"])
+	except Student.DoesNotExist:
+		return returnJson([], 404)
+
+	student.set_password(data["password"])
+	student.save()
+		
+	return returnJson([dict(student.body())])

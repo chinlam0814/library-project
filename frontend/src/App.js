@@ -11,6 +11,8 @@ import SearchPage from './SearchPage'
 import EditBookPage from './EditBookPage'
 import UserListPage from './UserListPage'
 import AddUserPage from './AddUserPage'
+import EditUserPage from './EditUserPage'
+import ForgetPasswordPage from './ForgetPasswordPage'
 
 function App(){
   return(
@@ -25,10 +27,12 @@ function App(){
           <Route path='/bookinfo/:bookId' element={<BookInfoPage />}/>
           <Route path='/addbook' element={<AddBookPage />}/>
           <Route path='/data' element={<DataPage />}/>
-          <Route path='/search/:searchword' element={<SearchPage />}/>
+          <Route path='/search/:type/:searchword' element={<SearchPage />}/>
           <Route path='/bookinfo/:bookId/edit' element={<EditBookPage />}/>
           <Route path='/users' element={<UserListPage />}/>
           <Route path='/adduser' element={<AddUserPage />}/>
+          <Route path='/edit/:type/:userId' element={<EditUserPage />}/>
+          <Route path='/forgetpassword' element={<ForgetPasswordPage />}/>
         </Routes>
       </div>
     </Router>

@@ -1,5 +1,5 @@
 import React, {Component, useState} from 'react'
-import {Link, useNavigate} from 'react-router-dom'
+import {Link, useNavigate } from 'react-router-dom'
 import Cookies from 'js-cookie'
 import api from './Api'
 import './Header.css'
@@ -12,31 +12,32 @@ import AddBookIcon from './AddBookIcon.png'
 import DataIcon from './DataIcon.png'
 import SearchIcon from './SearchIcon.png'
 import UserListIcon from './UserListIcon.png'
-import { Input, Space } from 'antd';
+import { Input, message, Tooltip, Select } from 'antd';
+
+const { Option } = Select;
 
 const { Search } = Input;
 
 const Header = () => {
     const navigate = useNavigate()
     let loggedInType = Cookies.get('user')
-    const [searchInput, setSearchInput] = useState("");
+    const [type, setType] = useState("title");
 
     const onSearch = (value) => {
         //console.log(value.length)
 
         if(value.length === 0){
+            message.warning('请输入书名/作者！')
             console.log('null')
         }
         else{
             console.log(value)
-            navigate(`/search/${value}`)
+            //setValue(value);
+            //history.push(`/search/${value}`)
+            navigate(`/search/${type}/${value}`)
+            window.location.reload(false)
         }
     }
-
-    const handleChange = (e) => {
-        e.preventDefault();
-        setSearchInput(e.target.value);
-      };
 
     const logoutAction = async(e) => {
         e.preventDefault()
@@ -48,11 +49,18 @@ const Header = () => {
 			Cookies.remove("username")
 			Cookies.remove("user_id")
         } else {
+            message.loading('正在登出...', 1)
+            .then(() => message.success('登出成功！', 2.5))
             navigate('/')
         }
 
         navigate('/')
     }
+
+    const handleChange = (value) => {
+        setType(value)
+        console.log(type)
+    };
 
     if(loggedInType === 'Student'){
         return(
@@ -73,7 +81,11 @@ const Header = () => {
                 </Link>
 
                 <div className='search-whole-box'>
-                    <Search
+                    <Select defaultValue="title" onChange={handleChange}>
+                        <Option value="title">书名</Option>
+                        <Option value="author">作者</Option>
+                    </Select>   
+                    <Input.Search
                         className='search-input'
                         placeholder="请输入书名/作者"
                         allowClear
@@ -117,7 +129,11 @@ const Header = () => {
                 </Link>
 
                 <div className='search-whole-box'>
-                    <Search
+                    <Select defaultValue="title" onChange={handleChange}>
+                        <Option value="title">书名</Option>
+                        <Option value="author">作者</Option>
+                    </Select>   
+                    <Input.Search
                         className='search-input'
                         placeholder="请输入书名/作者"
                         allowClear
@@ -147,7 +163,11 @@ const Header = () => {
             </Link>
 
             <div className='search-whole-box'>
-                    <Search
+                    <Select defaultValue="title" onChange={handleChange}>
+                        <Option value="title">书名</Option>
+                        <Option value="author">作者</Option>
+                    </Select>   
+                    <Input.Search
                         className='search-input'
                         placeholder="请输入书名/作者"
                         allowClear

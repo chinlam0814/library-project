@@ -135,8 +135,13 @@ class Api{
 	}
 
 	// done: admin can update admin account
-	updateAdmin = async (adminId, number, username) => {
+	editAdmin = async (adminId, number, username) => {
 		let data = await this.post(`/user/admins/${adminId}/edit/`, {number, username});
+		return data;
+	}
+
+	editStudent = async (studentId, number, username) => {
+		let data = await this.post(`/user/students/${studentId}/edit/`, {number, username});
 		return data;
 	}
 
@@ -146,9 +151,19 @@ class Api{
 		return data;
 	}
 
+	forgetPasswordAdmin = async (number, password) => {
+		let data = await this.put(`/user/admins/forgetpassword/`,{number, password});
+		return data;
+	}
+
 	// done: student can change password
 	resetPasswordStudent = async (id, password) => {
 		let data = await this.put(`/user/students/${id}/resetpassword/`,{password});
+		return data;
+	}
+
+	forgetPasswordStudent = async (number, password) => {
+		let data = await this.put(`/user/students/forgetpassword/`,{number, password});
 		return data;
 	}
 
@@ -164,7 +179,7 @@ class Api{
 		return data;
 	}
 
-	getBookImage = async (bookId,imageId) => {
+	getBookImage = async (bookId, imageId) => {
 		let data = await this.get(`/book/${bookId}/images/${imageId}/`);
 		return data;
 	}
@@ -175,8 +190,15 @@ class Api{
 		return data;
 	}
 
-	getSearchBook = async (searchword) => {
-		let data = await this.get(`/book/search/`, {searchword});
+	// done: search book by name
+	getSearchBookByTitle = async (searchword) => {
+		let data = await this.post(`/book/search/title/`, {searchword});
+		return data;
+	}
+
+	// done: search book by author
+	getSearchBookByAuthor = async (searchword) => {
+		let data = await this.post(`/book/search/author/`, {searchword});
 		return data;
 	}
 
@@ -184,7 +206,7 @@ class Api{
 	createBook = async (title, author, isbn, publisher, pubdate, type, synopsis, stock) => {
 		//login required
 		//400 : same book name
-		let data = await this.post(`/book/create/`,{title, author, isbn, publisher, pubdate, type, synopsis, stock});
+		let data = await this.post(`/book/create/`, {title, author, isbn, publisher, pubdate, type, synopsis, stock});
 		return data;
 	}
 
@@ -200,6 +222,12 @@ class Api{
             data: form
         })
 
+		return data;
+	}
+
+	// done: admin can edit bookinfo
+	editBook = async (bookId, title, author, type, isbn, publisher, pubdate, stock, synopsis) => {
+		let data = await this.put(`/book/${bookId}/edit/`, {title, author, type, isbn, publisher, pubdate, stock, synopsis});
 		return data;
 	}
 

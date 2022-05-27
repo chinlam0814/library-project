@@ -1,6 +1,8 @@
+import React from 'react';
 import {useState, useEffect} from 'react'
 import {Link, useNavigate} from 'react-router-dom'
 import api from './Components/Api'
+import './UserListPage.css'
 import Cookies from 'js-cookie'
 import Footer from './Components/Footer'
 import Header from './Components/Header'
@@ -12,30 +14,78 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { Modal, Button, Form, Input } from 'antd';
-import './UserListPage.css'
-import { Collapse } from 'antd';
+import Button from '@mui/material/Button';
+import { Modal } from 'antd';
+import TextField from '@mui/material/TextField';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import { Collapse, Form, Input } from 'antd';
+
 const { Panel } = Collapse;
 
 const UserListPage = () => {
     let listid = Cookies.get('user_id')
-    const navigate = useNavigate()
+    let flag = React.useState(true);
     const [studentList, setStudentList] = useState([])
     const [adminList, setAdminList] = useState([])
     const [number, setNumber] = useState([])
     const [username, setUsername] = useState([])
     const [isModalVisible, setIsModalVisible] = useState(false);
 
-    const editAction = (userId, type) => {
-        navigate(`/edit/${type}/${userId}`)
+    const handleCancel = () => {
+        setIsModalVisible(false);
     };
 
+    const editAdminAction = async(admin_id, admin_number, admin_username) => {
+        //console.log('testing')
+        //console.log(admin_id + ' ' + admin_number + ' ' + admin_username)
+        setNumber(admin_number)
+        setUsername(admin_username)
+        setIsModalVisible(true);
+    };
+
+    /*function editAdminAction(admin_id, admin_number, admin_username){
+        console.log(admin_id + ' ' + admin_number + ' ' + admin_username)
+
+        setOpen(true);
+        console.log(open)
+
+        return(
+            <div>
+                <Dialog open={open} onClose={handleClose}>
+                    <DialogTitle>Subscribe</DialogTitle>
+                    <DialogContent>
+                    <DialogContentText>
+                        To subscribe to this website, please enter your email address here. We
+                        will send updates occasionally.
+                    </DialogContentText>
+                    <TextField
+                        autoFocus
+                        margin="dense"
+                        id="name"
+                        label="Email Address"
+                        type="email"
+                        fullWidth
+                        variant="standard"
+                    />
+                    </DialogContent>
+                    <DialogActions>
+                    <Button onClick={handleClose}>Cancel</Button>
+                    <Button onClick={handleClose}>Subscribe</Button>
+                    </DialogActions>
+                </Dialog>
+            </div>
+        )
+    }*/
+    
     const fetchStudentList = async() => {
         const data = await api.getStudentList()
         console.log(data.data)
         return data.data
     }
-
     const fetchAdminList = async() => {
         const data = await api.getAdminList()
         console.log(data.data)
@@ -67,7 +117,25 @@ const UserListPage = () => {
         console.log(adminId)
         const data = await api.deleteAdmin(adminId)
         console.log(data)
-        window.location.reload(false)
+        if(data['errorCode'] === 403){
+            console.log('cannot delete own account')
+        }
+        else{
+            window.location.reload(false)
+        }
+    }
+
+    const updateAction = async() => {
+        console.log('update user')
+    }
+
+    const formItemLayout = {
+        labelCol: { span: 5 },
+        wrapperCol: { span: 18 },
+    };
+
+    function AdminModel(admin_id, admin_number, admin_username){
+        console.log(admin_id + ' ' + admin_number + ' ' + admin_username)
     }
 
     return(
@@ -75,7 +143,7 @@ const UserListPage = () => {
             <Header />
             <div className='table-list'>
                 <div className='list-header'>
-                    <h1>用户记录</h1>
+                    <h1>用户管理</h1>
                     <Link className='add-user-icon-link' to='/adduser'>
                         <img src = {AddIcon} className='add-icon' alt='add-user-icon' />
                     </Link>
@@ -103,8 +171,7 @@ const UserListPage = () => {
                                         </TableCell>
                                             <TableCell align="center">{adminlist.username}</TableCell>
                                             <TableCell align="center">
-                                                <button className='delete-user-button' onClick={() => deleteAdminAction(adminlist.id)} >删除</button>
-                                                <button className='update-user-button' onClick={() => editAction(adminlist.id, 'admin')} >编辑</button>
+                                                <Button color="error" onClick={() => deleteAdminAction(adminlist.id)} >删除</Button>
                                             </TableCell>
                                         </TableRow>
                                     )): <h2>暂无管理员用户记录</h2>}
@@ -112,7 +179,7 @@ const UserListPage = () => {
                             </Table>
                         </TableContainer>
                     </Panel>
-                    <Panel header="用户列表" key="2">
+                    <Panel header="学生列表" key="2">
                         <TableContainer component={Paper}>
                             <Table sx={{ minWidth: 650 }} aria-label="simple table">
                                 <TableHead>
@@ -133,8 +200,7 @@ const UserListPage = () => {
                                         </TableCell>
                                             <TableCell align="center">{studentlist.username}</TableCell>
                                             <TableCell align="center">
-                                                <button className='delete-user-button' onClick={() => deleteStudentAction(studentlist.id)} >删除</button>
-                                                <button className='update-user-button' onClick={() => editAction(studentlist.id, 'student')} >编辑</button>
+                                                <Button color="error" onClick={() => deleteStudentAction(studentlist.id)} >删除</Button>
                                             </TableCell>
                                         </TableRow>
                                     )): <h2>暂无学生用户记录</h2>}

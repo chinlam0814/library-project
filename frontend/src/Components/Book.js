@@ -25,7 +25,7 @@ const Book = () => {
     }, [])
 
     return (
-        <div className='order-statuslist-box'>
+        <div className='book-list-box'>
             {bookList.length > 0 ? bookList.map((booklist, index) => (
                 //<h2>{bookList.length}</h2>
                 <BookImage key={index} bookId={booklist.id} />

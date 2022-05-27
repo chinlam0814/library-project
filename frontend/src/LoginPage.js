@@ -5,7 +5,8 @@ import {Link, useNavigate} from 'react-router-dom'
 import './LoginPage.css'
 import Header from './Components/Header'
 import Footer from './Components/Footer'
-import { Form, Input, Button, Checkbox } from 'antd';
+import { Form, Input, Button, message } from 'antd';
+import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.css';
 
 const LoginPage = () => {
@@ -19,21 +20,19 @@ const LoginPage = () => {
         e.preventDefault()
         console.log(username + password)
         const data = await api.login(username, password)
+        console.log(data)
         console.log(Cookies.get('user'))
 
-        if (data.errorCode === 403) {
+        if (data.errorCode === 404) {
             console.log(data)
-            setPassword('')
-            console.log('wrong password or username')
-        } else if (data.errorCode === 404) {
-            console.log(data)
-            setPassword('')
-            console.log('user not exist')
+            message.error('输入的用户不存在/密码错误！')
         }
         else {
             if (Cookies.get('user') === 'Student') {
+                message.success('登陆成功！')
                 navigate('/')
             } else if (Cookies.get('user') === 'Admin') {
+                message.success('登陆成功！')
                 navigate('/')
             } 
         }
@@ -62,6 +61,7 @@ const LoginPage = () => {
                             rules={[{ required: true, message: '请输入学生/管理员姓名' }]}
                         >
                             <Input 
+                                prefix={<UserOutlined />}
                                 onChange={event => setUsername(event.target.value)}
                                 placeholder="请输入学生/管理员姓名"/>
                         </Form.Item>
@@ -71,7 +71,8 @@ const LoginPage = () => {
                             name="password"
                             rules={[{ required: true, message: '请输入密码' }]}
                         >
-                            <Input.Password 
+                            <Input.Password
+                                prefix={<LockOutlined />}
                                 onChange={event => setPassword(event.target.value)}
                                 placeholder="请输入密码"/>
                         </Form.Item>
@@ -80,9 +81,12 @@ const LoginPage = () => {
                             <Button type="primary" onClick={loginAction}>
                             登陆
                             </Button>
+
+                            <Link className='user-forget-password-link' to='/forgetpassword'>
+                                <button className='forget-button'>忘记密码？</button>
+                            </Link>
                         </Form.Item>
-                    </Form>
-                    
+                    </Form>   
                 </div>
             <Footer />
         </div>

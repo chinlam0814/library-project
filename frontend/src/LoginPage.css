@@ -1,3 +1,13 @@
 .login-form-design {
     margin: 50px;
 }
+
+.forget-button {
+    border: none;
+    background: none;
+}
+
+.user-forget-password-link {
+    color: red;
+    margin-left: 20px;
+}

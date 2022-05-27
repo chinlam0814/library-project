@@ -13,34 +13,29 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import { message, Button } from 'antd';
 
 const BorrowListPage = () => {  
     let id = Cookies.get('user_id')
     let loggedInType = Cookies.get('user')
     let borrow_message = '还未归还此书籍'
     var today = moment().format();
+    const navigate = useNavigate()
     const [borrowList, setBorrowList] = useState([])
     const [allBorrowList, setAllBorrowList] = useState([])
     const [different, setDifferent] = useState(0)
 
     const returnAction = async (borrow_id, return_date, bookId) => {
-        //e.preventDefault()
-        //console.log(borrow_id)
-        //console.log('return-success')
-        //const data = await api.editStudentBorrowStatus(borrow_id, '已还书')
-        //console.log(data)
-        //window.location.reload(false)
-
-        console.log(today.substring(0, 10))
-        console.log(return_date.substring(0, 10))
-        console.log(bookId)
-        /*if(today.substring(0, 10) > return_date(0, 10)){
-            console.log('逾期')
-        }*/
         if(moment(return_date.substring(0, 10)).isBefore(today.substring(0, 10))){
             const data = await api.editStudentBorrowStatus(borrow_id, '已逾期', bookId)
             console.log(data)
-            window.location.reload(false)
+            if(data.errorCode === 0){
+                message.warning('存在逾期，请缴纳逾期罚款！')
+                window.location.reload(false)
+            }
+            else{
+                message.error('还书失败！')
+            }
         }
         else{
             const data = await api.editStudentBorrowStatus(borrow_id, '已还书', bookId)
@@ -49,23 +44,12 @@ const BorrowListPage = () => {
         }
     }
 
-    /*function Test(){
-        console.log('tetsing')
-    }*/
-
     function CheckPaidAmount(return_date){
-        //console.log(return_date.return_date)
         setDifferent(moment(today.substring(0, 10)).diff(return_date.return_date, 'days'))
-        //console.log(today.substring(0, 10))
-        //console.log(today.substring(0, 10) - return_date.return_date)
-        //setDifferent((new Date(today.substring(0, 10)).getTime() - new Date(return_date).getTime()))
-        //setDifferent(Math.ceil((new Date(today).getTime() - new Date(return_date).getTime()) / (1000 * 3600 * 24)))
         console.log(different)
     }
 
     const paidAction = async (borrow_id, return_date) => {
-        //var different = Math.ceil((new Date(today).getTime() - new Date(return_date).getTime()) / (1000 * 3600 * 24));
-        //console.log(different)
         const data = await api.editStudentPaidStatus(borrow_id, '逾期已付款')
         console.log(data)
         window.location.reload(false)
@@ -179,7 +163,7 @@ const BorrowListPage = () => {
                                     <TableCell align="center">{borrowlist.borrow_date.substring(0, 10)}</TableCell>
                                     <TableCell align="center">{borrowlist.return_date.substring(0, 10)}</TableCell>
                                     {(borrowlist.returned_date === null)? <TableCell align="center">{borrow_message}</TableCell> : <TableCell align="center">{borrowlist.returned_date.substring(0, 10)}</TableCell>}
-                                    {(borrowlist.status === '已借书')? <TableCell align="center"><button className='return-book-button' onClick={() => returnAction(borrowlist.id, borrowlist.return_date, borrowlist.bookinfo.id)} >还书</button></TableCell> 
+                                    {(borrowlist.status === '已借书')? <TableCell align="center"><Button type='link' onClick={() => returnAction(borrowlist.id, borrowlist.return_date, borrowlist.bookinfo.id)} >还书</Button></TableCell> 
                                         : ((borrowlist.status === '已还书')? <TableCell align="center"></TableCell> 
                                             :((borrowlist.status === '已逾期')? <TableCell align="center">
                                                     <span>逾期天数：<CheckPaidAmount return_date={borrowlist.return_date.substring(0, 10)}/></span>
@@ -188,7 +172,7 @@ const BorrowListPage = () => {
                                                     <span>逾期金额：</span>
                                                     <span>{different * 0.5}元</span>
                                                     <br />
-                                                    <button className='paid-button' onClick={() => paidAction(borrowlist.id, borrowlist.return_date, borrowlist.bookinfo.id)}>点击付款</button>
+                                                    <Button danger type='text' onClick={() => paidAction(borrowlist.id, borrowlist.return_date, borrowlist.bookinfo.id)}>点击付款</Button>
                                                 </TableCell> 
                                                 :((borrowlist.status === '逾期已付款')? <TableCell align="center">已完成逾期付款</TableCell> :<TableCell align="center"></TableCell>)))}
                                     </TableRow>

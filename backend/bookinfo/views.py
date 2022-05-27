@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
 from django.contrib.auth.decorators import login_required
 from .models import BookInfo, BookImage
+from simple_search import search_filter
 from user.models import Student, Admin
 import json
 
@@ -47,12 +48,15 @@ def first_book_image(request, pk):
 
 def search_book_by_name(request):
 	data = json.loads(request.body)
-	#books = BookInfo.objects.filter(title_contains = data["searchword"])
-	books += BookInfo.objects.filter(title__contains = data["searchword"])
-	books = set([book.id for book in books])
-	results = BookInfo.objects.filter(id__in=books)
-	return returnJson([dict(book.body()) for book in results])
-	#return returnJson([dict(book.body()) for book in books])
+	word = data["searchword"]
+	books = BookInfo.objects.filter(title__contains = word)
+	return returnJson([dict(book.body()) for book in books])
+
+def search_book_by_author(request):
+	data = json.loads(request.body)
+	word = data["searchword"]
+	books = BookInfo.objects.filter(author__contains = word)
+	return returnJson([dict(book.body()) for book in books])
 
 
 @login_required
@@ -105,6 +109,26 @@ def delete_book(request, pk):
 		book.delete()
 		books=BookInfo.objects.all()
 		return returnJson([dict(book.body()) for book in books])
+
+@login_required
+def edit_book(request, pk):
+	book = BookInfo.objects.get(id=pk)
+
+	if request.method == 'PUT':
+		data = json.loads(request.body)
+		
+		book.title = data["title"]
+		book.author = data["author"]
+		book.isbn = data["isbn"]
+		book.publisher = data["publisher"]
+		book.pubdate = data["pubdate"]
+		book.type = data["type"]
+		book.synopsis = data["synopsis"]
+		book.stock = data["stock"]
+
+		book.save()
+		
+		return returnJson([dict(book.body())])
 
 
 		

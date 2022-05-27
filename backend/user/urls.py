@@ -18,6 +18,10 @@ urlpatterns = [
 
     path('students/<int:pk>/edit/', views.edit_student_info),
     path('admins/<int:pk>/edit/', views.edit_admin_info),
+    
+    
+    path('admins/forgetpassword/', views.admin_forget_password),
+    path('students/forgetpassword/', views.student_forget_password),
     path('students/<int:pk>/resetpassword/', views.student_reset_password),
     path('admins/<int:pk>/resetpassword/', views.admin_reset_password),
 ]
