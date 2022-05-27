@@ -5,7 +5,7 @@ import api from './Components/Api'
 import Cookies from 'js-cookie'
 import Footer from './Components/Footer'
 import Header from './Components/Header'
-import { Descriptions, Radio, Button, Modal, Form, Input, message } from 'antd';
+import { Descriptions, Tooltip, Button, Modal, Form, Input, message } from 'antd';
 
 const ProfilePage = () => {
     let id = Cookies.get('user_id')
@@ -18,8 +18,6 @@ const ProfilePage = () => {
     const [admin, setAdmin] = useState([])
     const [password, setPassword] = useState([])
     const [password1, setPassword1] = useState([])
-    const [number, setNumber] = useState([])
-    const [username, setUsername] = useState([])
     const [borrownum, setBorrownum] = useState([])
 
     const showModal = () => {
@@ -42,7 +40,19 @@ const ProfilePage = () => {
     const resetpasswordAction = async(e) => {
         e.preventDefault()
         console.log(password1 + ' ' +password)
-        if(password1 === password){
+        if(password.length === 0){
+            message.error('请输入新密码')
+        }
+        else if(password.length < 8){
+            message.error('密码位数至少为8！')
+        }
+        else if(password1.length === 0){
+            message.error('请输入确认密码')
+        }
+        else if(password.indexOf(' ')!== -1){
+            message.error('密码不能包含空格！')
+        }
+        else if(password1 === password){
             console.log(id)
             if(loggedInType === 'Student'){
                 //const data = await api.resetPasswordStudent(id, username, password, number, borrow_num)
@@ -120,17 +130,6 @@ const ProfilePage = () => {
         getAdmin()
     }, [])
 
-    function StudentValue(){
-        setUsername(student.username)
-        setNumber(student.number)
-    }
-
-    function AdminValue(){
-        setUsername(admin.username)
-        setNumber(admin.number)
-    }
-
-
     if(loggedInType === 'Admin'){
         return(
             <div>
@@ -163,9 +162,11 @@ const ProfilePage = () => {
                                 name="password"
                                 rules={[{ required: true, message: '请输入新密码' }]}
                             >
-                                <Input.Password 
-                                    onChange={event => setPassword(event.target.value)}
-                                    placeholder="请输入新密码"/>
+                                <Tooltip  placement="right" title='新密码位数至少为8，不能含有空格！'>
+                                    <Input.Password 
+                                        onChange={event => setPassword(event.target.value)}
+                                        placeholder="请输入新密码"/>
+                                </Tooltip>
                             </Form.Item>
 
                             <Form.Item
@@ -173,9 +174,11 @@ const ProfilePage = () => {
                                 name="password1"
                                 rules={[{ required: true, message: '请输入确认密码' }]}
                             >
-                                <Input.Password
-                                    onChange={event => setPassword1(event.target.value)}
-                                    placeholder="请输入确认密码"/>
+                                <Tooltip placement="right" title='新密码与确认密码需一致！'>
+                                    <Input.Password
+                                        onChange={event => setPassword1(event.target.value)}
+                                        placeholder="请输入确认密码"/>
+                                </Tooltip>
                             </Form.Item>
                         </Form>
                     </Modal>

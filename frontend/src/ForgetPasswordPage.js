@@ -6,7 +6,7 @@ import Footer from './Components/Footer'
 import Header from './Components/Header'
 import './ForgetPasswordPage.css'
 import { UserOutlined, LockOutlined, UserSwitchOutlined } from '@ant-design/icons';
-import { Form, Input, Button, Select, message } from 'antd';
+import { Form, Input, Button, Select, message, Tooltip } from 'antd';
 
 const { Option } = Select;
 
@@ -27,11 +27,17 @@ const ForgetPasswordPage = () => {
         else if(password.length === 0){
             message.warning('请输入新密码！');
         }
+        else if(password.length < 8){
+            message.error('密码位数至少为8！')
+        }
         else if(password1.length === 0){
             message.warning('请输入确认密码！');
         }
         else if(type.length === 0){
             message.warning('请选择用户类型！');
+        }
+        else if(password.indexOf(' ')!== -1){
+            message.error('密码不能包含空格！')
         }
         else if(password !== password1){
             message.warning('新密码和确认密码不一致！');
@@ -83,7 +89,7 @@ const ForgetPasswordPage = () => {
             <Header />
             
             <div className='form-design'>
-                <h1>添加用户</h1>
+                <h1>重置密码</h1>
                 
                 <br />
                 
@@ -104,10 +110,12 @@ const ForgetPasswordPage = () => {
                         name="password"
                         rules={[{ required: true, message: '请输入新密码' }]}
                     >
-                        <Input.Password
-                            prefix={<LockOutlined />}
-                            onChange={event => setPassword(event.target.value)}
-                            placeholder="请输入新密码"/>
+                        <Tooltip  placement="right" title='新密码位数至少为8，不能含有空格！'>
+                            <Input.Password
+                                prefix={<LockOutlined />}
+                                onChange={event => setPassword(event.target.value)}
+                                placeholder="请输入新密码"/>
+                        </Tooltip>
                     </Form.Item>
 
                     <Form.Item
@@ -115,10 +123,12 @@ const ForgetPasswordPage = () => {
                         name="password1"
                         rules={[{ required: true, message: '请输入确认密码' }]}
                     >
-                        <Input.Password
-                            prefix={<LockOutlined />}
-                            onChange={event => setPassword1(event.target.value)}
-                            placeholder="请输入确认密码"/>
+                        <Tooltip placement="right" title='新密码与确认密码需一致！'>
+                            <Input.Password
+                                prefix={<LockOutlined />}
+                                onChange={event => setPassword1(event.target.value)}
+                                placeholder="请输入确认密码"/>
+                        </Tooltip>
                     </Form.Item>
                         
                     <Form.Item

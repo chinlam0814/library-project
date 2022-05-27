@@ -30,7 +30,7 @@ const BorrowListPage = () => {
             const data = await api.editStudentBorrowStatus(borrow_id, '已逾期', bookId)
             console.log(data)
             if(data.errorCode === 0){
-                message.warning('存在逾期，请缴纳逾期罚款！')
+                message.warning('存在逾期，请缴纳逾期罚款！', 5)
                 window.location.reload(false)
             }
             else{
@@ -49,10 +49,8 @@ const BorrowListPage = () => {
         console.log(different)
     }
 
-    const paidAction = async (borrow_id, return_date) => {
-        const data = await api.editStudentPaidStatus(borrow_id, '逾期已付款')
-        console.log(data)
-        window.location.reload(false)
+    const paidAction = async (borrowId, return_date) => {
+        navigate(`/payfines/${borrowId}/${different}/`)
     }
 
     const fetchBorrowList = async() => {
@@ -166,12 +164,6 @@ const BorrowListPage = () => {
                                     {(borrowlist.status === '已借书')? <TableCell align="center"><Button type='link' onClick={() => returnAction(borrowlist.id, borrowlist.return_date, borrowlist.bookinfo.id)} >还书</Button></TableCell> 
                                         : ((borrowlist.status === '已还书')? <TableCell align="center"></TableCell> 
                                             :((borrowlist.status === '已逾期')? <TableCell align="center">
-                                                    <span>逾期天数：<CheckPaidAmount return_date={borrowlist.return_date.substring(0, 10)}/></span>
-                                                    <span>{different}</span>
-                                                    <br />
-                                                    <span>逾期金额：</span>
-                                                    <span>{different * 0.5}元</span>
-                                                    <br />
                                                     <Button danger type='text' onClick={() => paidAction(borrowlist.id, borrowlist.return_date, borrowlist.bookinfo.id)}>点击付款</Button>
                                                 </TableCell> 
                                                 :((borrowlist.status === '逾期已付款')? <TableCell align="center">已完成逾期付款</TableCell> :<TableCell align="center"></TableCell>)))}

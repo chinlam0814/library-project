@@ -1,0 +1,15 @@
+.fines-whole-box {
+    margin: 20px;
+    margin-left: 300px;
+
+}
+
+.fines-details-box {
+    width: 30%;
+    text-align: center;
+}
+
+.pay-fines-button {
+    margin-left: 50px;
+    margin-right: 20px;
+}

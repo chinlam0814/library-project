@@ -5,16 +5,22 @@ import {Link, useNavigate} from 'react-router-dom'
 import './LoginPage.css'
 import Header from './Components/Header'
 import Footer from './Components/Footer'
-import { Form, Input, Button, message } from 'antd';
-import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import { Form, Input, Button, message, Card, Typography } from 'antd';
+import { UserOutlined, LockOutlined, InfoCircleOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.css';
+
+const { Text} = Typography;
 
 const LoginPage = () => {
     const [studentList, setStudentList] = useState([])
-    const [username, setUsername] = useState([])
-    const [password, setPassword] = useState([])
+    const [username, setUsername] = useState('')
+    const [password, setPassword] = useState('')
     const [idNumber, setIdNumber] = useState([])
     const navigate = useNavigate()
+
+    const forgetAction = async() => {
+        navigate('/forgetpassword')
+    }
 
     const loginAction = async(e) => {
         e.preventDefault()
@@ -23,18 +29,26 @@ const LoginPage = () => {
         console.log(data)
         console.log(Cookies.get('user'))
 
-        if (data.errorCode === 404) {
-            console.log(data)
-            message.error('输入的用户不存在/密码错误！')
+        if(username.length === 0){
+            message.error('请输入学生/管理员姓名！')
         }
-        else {
-            if (Cookies.get('user') === 'Student') {
-                message.success('登陆成功！')
-                navigate('/')
-            } else if (Cookies.get('user') === 'Admin') {
-                message.success('登陆成功！')
-                navigate('/')
-            } 
+        else if(password.length === 0){
+            message.error('请输入密码！')
+        }
+        else{
+            if (data.errorCode === 404) {
+                console.log(data)
+                message.error('输入的用户不存在/密码错误！')
+            }
+            else {
+                if (Cookies.get('user') === 'Student') {
+                    message.success('登陆成功！')
+                    navigate('/')
+                } else if (Cookies.get('user') === 'Admin') {
+                    message.success('登陆成功！')
+                    navigate('/')
+                } 
+            }
         }
     }
 
@@ -48,9 +62,17 @@ const LoginPage = () => {
 
             <Header />
 
-                <div className='login-form-design'>
-                <h1>登陆</h1>
+                <div className='warn-text-whole-box'>
+                <Card style={{ width: 300 }} className='warn-text-box'>
+                        <Text type='danger' level={3}>注意事项：</Text>
+                        <br />
+                        <br />
+                        <Text>初始登陆的密码为学号/管理员号，登陆后请对密码进行修改！</Text>
+                </Card> 
+                </div>
 
+                <div className='login-form-design'>
+                <h1 className='login-text-box'>登陆</h1>
                     <br />
                     <br />
 
@@ -82,11 +104,12 @@ const LoginPage = () => {
                             登陆
                             </Button>
 
-                            <Link className='user-forget-password-link' to='/forgetpassword'>
-                                <button className='forget-button'>忘记密码？</button>
-                            </Link>
+                            <Button type="link" danger className='user-forget-password-link' onClick={forgetAction}>
+                            忘记密码？
+                            </Button>
+
                         </Form.Item>
-                    </Form>   
+                    </Form>  
                 </div>
             <Footer />
         </div>

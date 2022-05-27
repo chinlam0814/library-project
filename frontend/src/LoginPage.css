@@ -11,3 +11,12 @@
     color: red;
     margin-left: 20px;
 }
+
+.warn-text-whole-box {
+    margin-top: 10px;
+    margin-right: 80px;
+}
+
+.warn-text-box {
+    float: right;
+}

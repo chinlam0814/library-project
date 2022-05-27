@@ -23,6 +23,7 @@ const EditUserPage = () => {
     }
 
     const editAction = async(number, username) => {
+        
         if(type ==='admin'){
             console.log(number + ' ' + username)
             const data = await api.editAdmin(userId, number, username)

@@ -12,7 +12,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { Modal, Button, Form, Input } from 'antd';
+import { Modal, Button, Form, Input, message } from 'antd';
 import './UserListPage.css'
 import { Collapse } from 'antd';
 const { Panel } = Collapse;
@@ -64,10 +64,15 @@ const UserListPage = () => {
     }
 
     const deleteAdminAction = async(adminId) => {
-        console.log(adminId)
         const data = await api.deleteAdmin(adminId)
         console.log(data)
-        window.location.reload(false)
+        //window.location.reload(false)
+        if(data.errorCode === 403){
+            message.error('不能删除自己的账号！')
+        }
+        else{
+            window.location.reload(false)
+        }
     }
 
     return(

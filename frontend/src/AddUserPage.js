@@ -4,8 +4,10 @@ import api from './Components/Api'
 import Cookies from 'js-cookie'
 import Footer from './Components/Footer'
 import Header from './Components/Header'
-import { Form, Input, InputNumber, Button, Select } from 'antd';
+import { Form, Input, Card, Button, Select, message, Typography } from 'antd';
 import './AddUserPage.css'
+
+const { Text} = Typography;
 
 const { Option } = Select;
 
@@ -20,17 +22,28 @@ const AddUserPage = () => {
         var password = number
         console.log(number + ' ' + username + ' ' + type + ' ' + password)
 
-        if(type === 'Admin'){
-            var data
-            data = await api.createAdmin(username, password, number)
-            console.log(data)
-            window.location.reload(false)
+        if(number.length === 0){
+            message.error('请输入学号/管理员号！')
+        }
+        else if(username.length === 0){
+            message.error('请输入学生/管理员！')
+        }
+        else if(type.length === 0){
+            message.error('请选择创建用户类型！')
         }
         else{
-            var data
-            data = await api.createStudent(username, password, number)
-            console.log(data)
-            window.location.reload(false)
+            if(type === 'Admin'){
+                var data
+                data = await api.createAdmin(username, password, number)
+                console.log(data)
+                window.location.reload(false)
+            }
+            else{
+                var data
+                data = await api.createStudent(username, password, number)
+                console.log(data)
+                window.location.reload(false)
+            }
         }
     }
 
@@ -47,10 +60,20 @@ const AddUserPage = () => {
     return(
         <div>
             <Header />
+
+            <div className='warn-text-whole-box'>
+                <Card style={{ width: 300 }} className='warn-text-box'>
+                        <Text type='danger' level={3}>注意事项：</Text>
+                        <br />
+                        <br />
+                        <Text>创建用户时密码默认学号/管理员号</Text>
+                </Card> 
+            </div>
             
             <div className='form-design'>
                 <h1>添加用户</h1>
                 
+                <br />
                 <br />
                 
                 <Form {...formItemLayout}>

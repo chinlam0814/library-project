@@ -2,7 +2,6 @@ from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
 from django.contrib.auth.decorators import login_required
 from .models import BookInfo, BookImage
-from simple_search import search_filter
 from user.models import Student, Admin
 import json
 

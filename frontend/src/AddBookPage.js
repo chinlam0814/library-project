@@ -4,7 +4,7 @@ import api from './Components/Api'
 import Footer from './Components/Footer'
 import Header from './Components/Header'
 import './AddBookPage.css'
-import { Descriptions, Button, Modal } from 'antd';
+import { Descriptions, Button, Modal, message } from 'antd';
 import { Form, Input, InputNumber, DatePicker, Space, Select } from 'antd';
 import { Navigate } from 'react-router-dom'
 const { Option } = Select;
@@ -19,7 +19,7 @@ const AddBookPage = () => {
     const [isbn, setIsbn] = useState([])
     const [publisher, setPublisher] = useState([])
     const [pubdate, setPubdate] = useState([])
-    const [type, setType] = useState([])
+    const [type, setType] = useState('法律')
     const [synopsis, setSynopsis] = useState([])
     const [stock, setStock] = useState(0)
 
@@ -45,18 +45,42 @@ const AddBookPage = () => {
 
     const addbookAction = async (e) => {
         e.preventDefault()
+
         console.log(title+ author+ isbn+ publisher+ pubdate+ synopsis+ stock+type)
 
         const uploadData = new FormData()
         uploadData.append('images',images)
 
-        var data
-        data = await api.createBook(title, author, isbn, publisher, pubdate, type, synopsis, stock)
-        const imageData = await api.createBookImage(data.data[0].id, uploadData)
+        if(title.length === 0){
+            message.error('请输入书籍名称！')
+        }
+        else if(author.length === 0){
+            message.error('请输入书籍作者！')
+        }
+        else if(isbn.length === 0){
+            message.error('请输入书籍国际标准书号！')
+        }
+        else if(publisher.length === 0){
+            message.error('请输入书籍出版社！')
+        }
+        else if(pubdate.length === 0){
+            message.error('请输入书籍出版日期！')
+        }
+        else if(stock === null){
+            message.error('请输入书籍库存！')
+        }
+        else if(synopsis.length === 0){
+            message.error('请输入书籍简介！')
+        }
+        else{
+            var data
+            data = await api.createBook(title, author, isbn, publisher, pubdate, type, synopsis, stock)
+            //const imageData = await api.createBookImage(data.data[0].id, uploadData)
 
-        console.log(data)
+            console.log(data)
 
-        navigate('/')
+            navigate('/')
+        }
     }
 
     return(
@@ -182,6 +206,7 @@ const AddBookPage = () => {
                         <InputNumber
                             onChange={onChangeStock}
                             style={{ width: '100%' }}
+                            min={0}
                             placeholder="请输入书籍库存"/>
                     </Form.Item>
 
