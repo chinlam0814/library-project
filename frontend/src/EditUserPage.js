@@ -81,15 +81,17 @@ const EditUserPage = () => {
         if(type === 'student'){
             const data = await api.getStudent(userId)
             console.log(data.data[0])
-            //setNumber1(data.data[0].number)
-            //setUsername1(data.data[0].username)
+            setNumber1(data.data[0].number)
+            setUsername1(data.data[0].username)
             return data.data[0]
         }
         else{
             const data = await api.getAdmin(userId)
             console.log(data.data[0])
-            //setNumber1(data.data[0].number)
-            //setUsername1(data.data[0].username)
+            setNumber1(data.data[0].number)
+            console.log(number1)
+            setUsername1(data.data[0].username)
+            console.log(username1)
             return data.data[0]
         }
     }
