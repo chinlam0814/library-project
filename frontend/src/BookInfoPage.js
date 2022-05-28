@@ -15,6 +15,7 @@ const MainPage = () => {
     let id = Cookies.get('user_id')
     let {bookId} = useParams();
     const navigate = useNavigate()
+    const [imagePath, setImagePath] = useState([])
     const [images, setImages] = useState([])
     const [imagesPath, setImagesPath] = useState([])
     const [book, setBook] = useState([])
@@ -109,15 +110,23 @@ const MainPage = () => {
         else{
             console.log('testing')
             console.log(imagesPath)
-            const uploadData = new FormData()
-            uploadData.append('images',images)
 
-            const imageData = await api.editBookImage(bookId, uploadData)
+            if(imagePath === imagesPath){
+                const data = await api.editBook(bookId, title, author, type, isbn, publisher, pubdate, stock, synopsis)
+                message.success('成功修改书籍详情！')
+                console.log(data)
+                window.location.reload(false)
+            }
+            else{
+                const uploadData = new FormData()
+                uploadData.append('images',images)
 
-            const data = await api.editBook(bookId, title, author, type, isbn, publisher, pubdate, stock, synopsis)
-            message.success('成功修改书籍详情！')
-            console.log(data)
-            window.location.reload(false)
+                const imageData = await api.editBookImage(bookId, uploadData)
+                const data = await api.editBook(bookId, title, author, type, isbn, publisher, pubdate, stock, synopsis)
+                message.success('成功修改书籍详情！')
+                console.log(data)
+                window.location.reload(false)
+            }
         }
     }
 
@@ -151,6 +160,7 @@ const MainPage = () => {
         const data = await api.getBookImage(bookId)
         console.log(data)
         setImagesPath(data.data[0].image_url)
+        setImagePath(data.data[0].image_url)
         if (data !== undefined) return data.errorCode === '404' ? (console.log('image not found')) : data.data[0]
     }
 
@@ -311,7 +321,9 @@ const MainPage = () => {
                                 <div className='images-preview-whole-box'>
                                     <img src={imagesPath} className='images-preview-box' alt='preview-imgs'/>
                                 </div>
+
                                 <br />
+                                
                                 <input
                                     name={images}
                                     type='file'

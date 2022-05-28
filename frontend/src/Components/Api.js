@@ -226,6 +226,7 @@ class Api{
 		return data;
 	}
 
+	// done: admin can edit photo
 	editBookImage = async (bookId, form) => {
 		//login required
 		//404 : book not found
