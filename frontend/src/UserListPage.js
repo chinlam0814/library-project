@@ -4,7 +4,6 @@ import api from './Components/Api'
 import Cookies from 'js-cookie'
 import Footer from './Components/Footer'
 import Header from './Components/Header'
-import AddIcon from './Components/AddIcon.png'
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -81,9 +80,6 @@ const UserListPage = () => {
             <div className='table-list'>
                 <div className='list-header'>
                     <h1>用户记录</h1>
-                    <Link className='add-user-icon-link' to='/adduser'>
-                        <img src = {AddIcon} className='add-icon' alt='add-user-icon' />
-                    </Link>
                 </div>
               
                 <Collapse accordion>

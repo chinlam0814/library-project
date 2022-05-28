@@ -9,8 +9,7 @@ import LogoutIcon from './LogoutIcon.png'
 import UserIcon from './UserIcon.png'
 import BookIcon from './BookIcon.png'
 import AddBookIcon from './AddBookIcon.png'
-import DataIcon from './DataIcon.png'
-import SearchIcon from './SearchIcon.png'
+import AddUserIcon from './AddUserIcon.png'
 import UserListIcon from './UserListIcon.png'
 import { Input, message, Tooltip, Select } from 'antd';
 
@@ -29,6 +28,9 @@ const Header = () => {
         if(value.length === 0){
             message.warning('请输入书名/作者！')
             console.log('null')
+        }
+        else if(value.indexOf(' ') !== -1){
+            message.warning('输入的书名/作者不能含有空格！')
         }
         else{
             console.log(value)
@@ -122,6 +124,10 @@ const Header = () => {
 
                 <Link className='add-book-icon-link' to='/addbook'>
                     <img src = {AddBookIcon} className = 'addbookicon' alt = 'add-book-icon'/>
+                </Link>
+
+                <Link className='add-user-icon-link' to='/adduser'>
+                    <img src = {AddUserIcon} className='add-icon' alt='add-user-icon' />
                 </Link>
 
                 <Link className='user-list-icon-link' to='/users'>

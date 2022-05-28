@@ -67,7 +67,7 @@ class BookInfo(models.Model):
     pubdate = models.DateField(null = True)
     type = models.CharField(max_length = 50, choices = CATEGORIES, default = LAW)
     stock = models.IntegerField(null = True, default=0)
-    synopsis = models.TextField(null = False, max_length=501)
+    synopsis = models.TextField(null = True, max_length=501)
 
     def __str__(self):
         return self.title

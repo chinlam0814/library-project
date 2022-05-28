@@ -76,26 +76,35 @@ const MainPage = () => {
         if(title.length === 0){
             message.error('请输入书籍名称！')
         }
+        else if(title.indexOf(' ')!== -1){
+            message.error('书籍名称不能含有空格！')
+        }
         else if(author.length === 0){
             message.error('请输入书籍作者！')
         }
-        else if(type.length === 0){
-            message.error('请选择书籍类型！')
+        else if(author.indexOf(' ')!== -1){
+            message.error('书籍作者不能含有空格！')
         }
         else if(isbn.length === 0){
             message.error('请输入书籍国际标准书号！')
         }
+        else if(isbn.indexOf(' ')!== -1){
+            message.error('书籍国际标准书号不能含有空格！')
+        }
         else if(publisher.length === 0){
             message.error('请输入书籍出版社！')
         }
-        else if(pubdate === ''){
+        else if(publisher.indexOf(' ')!== -1){
+            message.error('书籍出版社不能含有空格！')
+        }
+        else if(pubdate.length === 0){
             message.error('请输入书籍出版日期！')
+        }
+        else if(pubdate.indexOf(' ')!== -1){
+            message.error('书籍出版日期不能含有空格！')
         }
         else if(stock === null){
             message.error('请输入书籍库存！')
-        }
-        else if(synopsis.length === 0){
-            message.error('请输入书籍简介！')
         }
         else{
             const data = await api.editBook(bookId, title, author, type, isbn, publisher, pubdate, stock, synopsis)
@@ -389,7 +398,7 @@ const MainPage = () => {
                             <Form.Item
                                 label="书籍简介"
                                 name="synopsis"
-                                rules={[{ required: true, message: '请输入书籍简介' }]}
+                                rules={[{ message: '请输入书籍简介' }]}
                             >
                                 <TextArea showCount placeholder='请输入书籍简介' maxLength={500} style={{ height: 150 }} onChange={event => setSynopsis(event.target.value)} />
                             </Form.Item>
