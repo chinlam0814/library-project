@@ -15,7 +15,8 @@ const MainPage = () => {
     let id = Cookies.get('user_id')
     let {bookId} = useParams();
     const navigate = useNavigate()
-    const [image, setImages] = useState([])
+    const [images, setImages] = useState([])
+    const [imagesPath, setImagesPath] = useState([])
     const [book, setBook] = useState([])
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [title, setTitle] = useState('')
@@ -67,11 +68,10 @@ const MainPage = () => {
     }
 
     const editAction = async() => {
-        console.log('edit book')
-        console.log(title + ' ' + author + ' ' + isbn + ' ' + publisher + ' ' + pubdate + ' ' + type + ' ' + stock + ' ' + synopsis)
-        //const data = await api.deleteBook(bookId)
-        //navigate('/edit')
-        //return(data)
+        //console.log('edit book')
+        //console.log(title + ' ' + author + ' ' + isbn + ' ' + publisher + ' ' + pubdate + ' ' + type + ' ' + stock + ' ' + synopsis)
+        //console.log(imagesPath)
+        console.log(images)
 
         if(title.length === 0){
             message.error('请输入书籍名称！')
@@ -107,6 +107,13 @@ const MainPage = () => {
             message.error('请输入书籍库存！')
         }
         else{
+            console.log('testing')
+            console.log(imagesPath)
+            const uploadData = new FormData()
+            uploadData.append('images',images)
+
+            const imageData = await api.editBookImage(bookId, uploadData)
+
             const data = await api.editBook(bookId, title, author, type, isbn, publisher, pubdate, stock, synopsis)
             message.success('成功修改书籍详情！')
             console.log(data)
@@ -141,8 +148,9 @@ const MainPage = () => {
     }
 
     const fetchImages = async() => {
-        const data = await api.getFirstBookImage(bookId)
-        //console.log(data)
+        const data = await api.getBookImage(bookId)
+        console.log(data)
+        setImagesPath(data.data[0].image_url)
         if (data !== undefined) return data.errorCode === '404' ? (console.log('image not found')) : data.data[0]
     }
 
@@ -199,7 +207,7 @@ const MainPage = () => {
                     
                     <div className='book-info-whole-box'>
                         <Descriptions title={book.title} bordered column={{ xxl: 4, xl: 3, lg: 3, md: 3, sm: 2, xs: 1 }}>
-                        <Descriptions.Item label="书籍照片" span={5}><img src={ image? image.image_url : '0'} alt='img' className='book-image-box' /></Descriptions.Item>
+                        <Descriptions.Item label="书籍照片" span={5}><img src={ images? images.image_url : '0'} alt='img' className='book-image-box' /></Descriptions.Item>
                         <Descriptions.Item label="作者" span={3}>{book.author}</Descriptions.Item>
                         <Descriptions.Item label="类型" span={2}>{book.type}</Descriptions.Item>
                         <Descriptions.Item label="国际标准书号" span={2}>{book.isbn}</Descriptions.Item>
@@ -227,7 +235,7 @@ const MainPage = () => {
                     
                     <div className='book-info-whole-box'>
                         <Descriptions title={book.title} bordered column={{ xxl: 4, xl: 3, lg: 3, md: 3, sm: 2, xs: 1 }}>
-                        <Descriptions.Item label="书籍照片" span={5}><img src={ image? image.image_url : '0'} alt='img' className='book-image-box' /></Descriptions.Item>
+                        <Descriptions.Item label="书籍照片" span={5}><img src={ images? images.image_url : '0'} alt='img' className='book-image-box' /></Descriptions.Item>
                         <Descriptions.Item label="作者" span={3}>{book.author}</Descriptions.Item>
                         <Descriptions.Item label="类型" span={2}>{book.type}</Descriptions.Item>
                         <Descriptions.Item label="国际标准书号" span={2}>{book.isbn}</Descriptions.Item>
@@ -256,7 +264,7 @@ const MainPage = () => {
                 
                 <div className='book-info-whole-box'>
                         <Descriptions title={book.title} bordered column={{ xxl: 4, xl: 3, lg: 3, md: 3, sm: 2, xs: 1 }}>
-                        <Descriptions.Item label="书籍照片" span={5}><img src={ image? image.image_url : '0'} alt='img' className='book-image-box' /></Descriptions.Item>
+                        <Descriptions.Item label="书籍照片" span={5}><img src={ images? images.image_url : '0'} alt='img' className='book-image-box' /></Descriptions.Item>
                         <Descriptions.Item label="作者" span={3}>{book.author}</Descriptions.Item>
                         <Descriptions.Item label="类型" span={1}>{book.type}</Descriptions.Item>
                         <Descriptions.Item label="国际标准书号" span={2}>{book.isbn}</Descriptions.Item>
@@ -271,7 +279,7 @@ const MainPage = () => {
                     <Button type="primary" className='edit-button' onClick={showModal}>
                     编辑
                     </Button>
-                    <Modal title="修改书籍" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} style={{ top: 10 }}
+                    <Modal title="编辑书籍信息" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} style={{ top: 10 }}
                     footer={[
                         <Button key="submit" onClick={editAction}>
                           编辑
@@ -294,6 +302,22 @@ const MainPage = () => {
                                 'stock': book.stock,
                                 'synopsis': book.synopsis,
                         }}>
+
+                            <Form.Item
+                                label="书籍照片"
+                                name="image"
+                                rules={[{ required: true, message: '请输入书名' }]}
+                            >
+                                <div className='images-preview-whole-box'>
+                                    <img src={imagesPath} className='images-preview-box' alt='preview-imgs'/>
+                                </div>
+                                <br />
+                                <input
+                                    name={images}
+                                    type='file'
+                                    onChange={event => {setImages(event.target.files[0]); setImagesPath(URL.createObjectURL(event.target.files[0]))}}
+                                    accept='image/*' required/>
+                            </Form.Item>
 
                             <Form.Item
                                 label="书名"
@@ -423,7 +447,7 @@ const MainPage = () => {
 
             <div className='book-info-whole-box'>
                 <Descriptions title={book.title} bordered column={{ xxl: 4, xl: 3, lg: 3, md: 3, sm: 2, xs: 1 }}>
-                        <Descriptions.Item label="书籍照片" span={5}><img src={ image? image.image_url : '0'} alt='img' className='book-image-box' /></Descriptions.Item>
+                        <Descriptions.Item label="书籍照片" span={5}><img src={ images? images.image_url : '0'} alt='img' className='book-image-box' /></Descriptions.Item>
                         <Descriptions.Item label="作者" span={3}>{book.author}</Descriptions.Item>
                         <Descriptions.Item label="类型" span={2}>{book.type}</Descriptions.Item>
                         <Descriptions.Item label="国际标准书号" span={2}>{book.isbn}</Descriptions.Item>

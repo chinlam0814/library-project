@@ -23,7 +23,7 @@ const Borrow = () => {
     }, [])
 
     return (
-        <div className='order-statuslist-box'>
+        <div className='borrow-list-box'>
             {borrowList.length > 0 ? borrowList.map((borrowlist, index) => (
                 //<h2>{bookList.length}</h2>
                 <BorrowListPage key={index} 

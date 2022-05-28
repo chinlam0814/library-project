@@ -79,7 +79,7 @@ const UserListPage = () => {
             <Header />
             <div className='table-list'>
                 <div className='list-header'>
-                    <h1>用户记录</h1>
+                    <h1>用户列表</h1>
                 </div>
               
                 <Collapse accordion>
@@ -113,7 +113,7 @@ const UserListPage = () => {
                             </Table>
                         </TableContainer>
                     </Panel>
-                    <Panel header="用户列表" key="2">
+                    <Panel header="学生列表" key="2">
                         <TableContainer component={Paper}>
                             <Table sx={{ minWidth: 650 }} aria-label="simple table">
                                 <TableHead>

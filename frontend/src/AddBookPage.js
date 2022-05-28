@@ -85,9 +85,13 @@ const AddBookPage = () => {
             message.error('请输入书籍库存！')
         }
         else{
+            const uploadData = new FormData()
+            uploadData.append('images',images)
+
             var data
             data = await api.createBook(title, author, isbn, publisher, pubdate, type, synopsis, stock)
-            //const imageData = await api.createBookImage(data.data[0].id, uploadData)
+            console.log(data)
+            const imageData = await api.createBookImage(data.data[0].id, uploadData)
 
             console.log(data)
 

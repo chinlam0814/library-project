@@ -17,7 +17,7 @@ const BookImage = ({bookId}) => {
 
 
     const fetchImages = async() => {
-        const data = await api.getFirstBookImage(bookId)
+        const data = await api.getBookImage(bookId)
         //console.log(data)
         if (data !== undefined) return data.errorCode === '404' ? (console.log('image not found')) : data.data[0]
     }

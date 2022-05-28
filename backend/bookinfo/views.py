@@ -33,7 +33,7 @@ def book(request, pk):
 
 	return returnJson([dict(book.body())])
 
-def first_book_image(request, pk):
+def book_image(request, pk):
 	try:
 		book = BookInfo.objects.get(id = pk)
 	except BookInfo.DoesNotExist:
@@ -99,6 +99,24 @@ def create_book_image(request, pk):
 	image = BookImage.objects.create(book=book,image=request.FILES.get("images"))
 
 	return returnJson([dict(image.body())])
+
+@login_required
+def edit_book_image(request, pk):
+	try:
+		admin = Admin.objects.get(id=request.user.id)
+	except Admin.DoesNotExist:
+		return returnJson([],0,403)
+
+	try:
+		book = BookInfo.objects.get(id = pk)
+	except BookInfo.DoesNotExist:
+		return returnJson([],0, 404)
+
+	images = BookImage.objects.get(book=book)
+	images.image= request.FILES.get("images")
+	images.save()
+
+	return returnJson([dict(images.body())])
 
 @login_required
 def delete_book(request, pk):

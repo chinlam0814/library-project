@@ -179,14 +179,9 @@ class Api{
 		return data;
 	}
 
-	getBookImage = async (bookId, imageId) => {
-		let data = await this.get(`/book/${bookId}/images/${imageId}/`);
-		return data;
-	}
-
 	// done: get book image using bookid (specific)
-	getFirstBookImage = async (bookId) => {
-		let data = await this.get(`/book/${bookId}/images/first/`);
+	getBookImage = async (bookId) => {
+		let data = await this.get(`/book/${bookId}/images/`);
 		return data;
 	}
 
@@ -210,7 +205,7 @@ class Api{
 		return data;
 	}
 
-	// bug: ValueError: The 'image' attribute has no file associated with it.
+	// done: admin can create book image
 	createBookImage = async (bookId, form) => {
 		//login required
 		//404 : book not found
@@ -228,6 +223,20 @@ class Api{
 	// done: admin can edit bookinfo
 	editBook = async (bookId, title, author, type, isbn, publisher, pubdate, stock, synopsis) => {
 		let data = await this.put(`/book/${bookId}/edit/`, {title, author, type, isbn, publisher, pubdate, stock, synopsis});
+		return data;
+	}
+
+	editBookImage = async (bookId, form) => {
+		//login required
+		//404 : book not found
+		//403 : user not admin
+
+		let data = await axios({
+            method: 'post',
+            url: `/book/${bookId}/images/edit/`,
+            data: form
+        })
+
 		return data;
 	}
 

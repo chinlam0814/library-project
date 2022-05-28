@@ -10,9 +10,10 @@ urlpatterns = [
     path('create/', views.create_book),
     path('<int:pk>/edit/', views.edit_book),
     path('<int:pk>/images/create/', views.create_book_image),
+    path('<int:pk>/images/edit/', views.edit_book_image),
 
     path('<int:pk>/delete/', views.delete_book),
 
-    path('<int:pk>/images/first/', views.first_book_image),
+    path('<int:pk>/images/', views.book_image),
     path('<int:pk>/images/<int:pk_image>/', views.book_image),
 ]

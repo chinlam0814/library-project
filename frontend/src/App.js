@@ -1,7 +1,6 @@
 import {BrowserRouter as Router, Routes, Route, Navigate} from 'react-router-dom'
 import LoginPage from './LoginPage'
 import MainPage from './MainPage'
-import RegisterPage from './RegisterPage'
 import ProfilePage from './ProfilePage'
 import BorrowListPage from './BorrowListPage'
 import PayFinesPage from './PayFinesPage'
@@ -22,7 +21,6 @@ function App(){
         <Routes>
           <Route path='/' element={<MainPage />}/>
           <Route path='/login' element={<LoginPage />}/>
-          <Route path='/register' element={<RegisterPage />}/>
           <Route path='/profile' element={<ProfilePage />}/>
           <Route path='/borrowlist' element={<BorrowListPage />}/>
           <Route path='/payfines/:borrowId/:different' element={<PayFinesPage />}/>

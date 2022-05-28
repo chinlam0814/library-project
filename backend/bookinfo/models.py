@@ -89,7 +89,7 @@ class BookInfo(models.Model):
         verbose_name = "Book"
 
 class BookImage(models.Model):
-    image = models.ImageField(upload_to="book_images",null = False)
+    image = models.ImageField(upload_to="book_images",null = True)
     book = models.ForeignKey(BookInfo, on_delete = models.CASCADE, null = False)
 
     def __str__(self):
