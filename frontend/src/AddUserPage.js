@@ -25,8 +25,17 @@ const AddUserPage = () => {
         if(number.length === 0){
             message.error('请输入学号/管理员号！')
         }
+        else if(number.length < 8){
+            message.error('学号/管理员号位数需为8！')
+        }
+        else if(number.indexOf(' ')!== -1){
+            message.error('学号/管理员号不能包含空格！')
+        }
         else if(username.length === 0){
             message.error('请输入学生/管理员！')
+        }
+        else if(username.indexOf(' ')!== -1){
+            message.error('学生/管理员姓名不能包含空格！')
         }
         else if(type.length === 0){
             message.error('请选择创建用户类型！')

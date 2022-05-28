@@ -36,7 +36,7 @@ const PayFinesPage = () => {
                 <div className='fines-details-box'>
                     <Card title ='逾期罚款'>
                         <h4>逾期天数：{different}天</h4>
-                        <h4>逾期：{different * 0.5}元</h4>
+                        <h4>逾期金额：{different * 0.5}元</h4>
                     </Card>
                 </div>
 

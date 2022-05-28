@@ -50,6 +50,7 @@ const BorrowListPage = () => {
     }
 
     const paidAction = async (borrowId, return_date) => {
+        console.log(different)
         navigate(`/payfines/${borrowId}/${different}/`)
     }
 
@@ -164,7 +165,8 @@ const BorrowListPage = () => {
                                     {(borrowlist.status === '已借书')? <TableCell align="center"><Button type='link' onClick={() => returnAction(borrowlist.id, borrowlist.return_date, borrowlist.bookinfo.id)} >还书</Button></TableCell> 
                                         : ((borrowlist.status === '已还书')? <TableCell align="center"></TableCell> 
                                             :((borrowlist.status === '已逾期')? <TableCell align="center">
-                                                    <Button danger type='text' onClick={() => paidAction(borrowlist.id, borrowlist.return_date, borrowlist.bookinfo.id)}>点击付款</Button>
+                                                    <CheckPaidAmount return_date={borrowlist.return_date.substring(0, 10)}/>
+                                                    <Button danger type='text' onClick={() => paidAction(borrowlist.id, borrowlist.return_date)}>点击付款</Button>
                                                 </TableCell> 
                                                 :((borrowlist.status === '逾期已付款')? <TableCell align="center">已完成逾期付款</TableCell> :<TableCell align="center"></TableCell>)))}
                                     </TableRow>
