@@ -51,7 +51,10 @@ const AddBookPage = () => {
         const uploadData = new FormData()
         uploadData.append('images',images)
 
-        if(title.length === 0){
+        if(imagePath.length === 0){
+            message.error('请上传书籍图片！')
+        }
+        else if(title.length === 0){
             message.error('请输入书籍名称！')
         }
         else if(title.indexOf(' ')!== -1){
@@ -91,11 +94,15 @@ const AddBookPage = () => {
             var data
             data = await api.createBook(title, author, isbn, publisher, pubdate, type, synopsis, stock)
             console.log(data)
-            const imageData = await api.createBookImage(data.data[0].id, uploadData)
 
-            console.log(data)
-
-            navigate('/')
+            if(data.errorCode === 404){
+                message.error('添加失败，已有相同书名、作者和出版日期的书籍！')
+            }
+            else{
+                const imageData = await api.createBookImage(data.data[0].id, uploadData)
+                console.log(data)
+                navigate('/')
+            }
         }
     }
 

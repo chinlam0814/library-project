@@ -3,6 +3,7 @@ import LoginPage from './LoginPage'
 import MainPage from './MainPage'
 import ProfilePage from './ProfilePage'
 import BorrowListPage from './BorrowListPage'
+import StudentBorrowListPage from './StudentBorrowListPage'
 import PayFinesPage from './PayFinesPage'
 import BookInfoPage from './BookInfoPage'
 import AddBookPage from './AddBookPage'
@@ -23,6 +24,7 @@ function App(){
           <Route path='/login' element={<LoginPage />}/>
           <Route path='/profile' element={<ProfilePage />}/>
           <Route path='/borrowlist' element={<BorrowListPage />}/>
+          <Route path='/borrowlist/:id' element={<StudentBorrowListPage />}/>
           <Route path='/payfines/:borrowId/:different' element={<PayFinesPage />}/>
           <Route path='/bookinfo/:bookId' element={<BookInfoPage />}/>
           <Route path='/addbook' element={<AddBookPage />}/>

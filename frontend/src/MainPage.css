@@ -1,3 +1,24 @@
-.radio-button-style {
+.remind-list-box {
+    display: flex;            
+    display: -webkit-flex;            
+    justify-content: center;          
+    align-items: center;
+    margin-top: 30px;
+}
+
+.remind-detail {
+    display: flex;
+}
+
+.book-list-design {
     margin: 20px;
+}
+
+.remind-text-box {
+    display: flex;
+    margin-left: auto;
+}
+
+.day-remind {
+    color: red;
 }

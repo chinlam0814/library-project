@@ -29,7 +29,7 @@ const PayFinesPage = () => {
             <Header />
             
             <div className='fines-whole-box'>
-                <h2>逾期详情</h2>
+                <h2 className='fines-title-box'>逾期详情</h2>
 
                 <br />
 

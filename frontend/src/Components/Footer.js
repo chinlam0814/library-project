@@ -1,6 +1,5 @@
 import React from 'react'
 import './Footer.css'
-import footerImage from './Book_footer.jpg';
 
 const Footer = () => {
     return(
@@ -13,6 +12,10 @@ const Footer = () => {
 
                 <div className = 'footer-word'>
                     <span>BH_LIBRARY ©️2022 79066014 潘靖琳</span>
+                    <br />
+                    <br />
+                    <br />
+                    <br />
                 </div>
             </div>
 

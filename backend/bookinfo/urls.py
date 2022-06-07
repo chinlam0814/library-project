@@ -7,6 +7,7 @@ urlpatterns = [
     
     path('search/title/', views.search_book_by_name),
     path('search/author/', views.search_book_by_author),
+    path('search/type/', views.search_book_by_type),
     path('create/', views.create_book),
     path('<int:pk>/edit/', views.edit_book),
     path('<int:pk>/images/create/', views.create_book_image),

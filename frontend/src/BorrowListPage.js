@@ -13,7 +13,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { message, Button } from 'antd';
+import { message, Button, Input } from 'antd';
 
 const BorrowListPage = () => {  
     let id = Cookies.get('user_id')
@@ -41,6 +41,29 @@ const BorrowListPage = () => {
             const data = await api.editStudentBorrowStatus(borrow_id, '已还书', bookId)
             console.log(data)
             window.location.reload(false)
+        }
+    }
+
+    const onSearch = async(value) => {
+        //console.log(value)
+
+        if(value.length === 0){
+            message.warning('请输入需要搜索的学号！')
+        }
+        else if(value.length !== 8){
+            message.warning('输入的学号应为8位！')
+        }
+        else if(value.indexOf(' ') !== -1){
+            message.warning('输入的学号不能含有空格！')
+        }
+        else{
+            const data = await api.getStudentBorrowListBySearch(value)
+            if(data.errorCode === 404){
+                message.error('用户不存在！')
+            }
+            else{
+                navigate(`/borrowlist/${value}`)
+            }
         }
     }
 
@@ -87,6 +110,19 @@ const BorrowListPage = () => {
                 <Header />
                 <div className='table-list'>
                     <h1>借阅记录</h1>
+
+                    <br />
+                    <Input.Search 
+                        className='id-search-box'
+                        enterButton="搜索"
+                        placeholder="请输入书籍类型"
+                        allowClear
+                        size="medium"
+                        onSearch={onSearch}/>
+                    <br />
+                    <br />
+                    <br />
+                    
                     <TableContainer component={Paper}>
                         <Table sx={{ minWidth: 650 }} aria-label="simple table">
                             <TableHead>

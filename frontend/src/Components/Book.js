@@ -27,21 +27,10 @@ const Book = () => {
     return (
         <div className='book-list-box'>
             {bookList.length > 0 ? bookList.map((booklist, index) => (
-                //<h2>{bookList.length}</h2>
                 <BookImage key={index} bookId={booklist.id} />
             )): <h2>暂无书籍</h2>}
         </div>
    )
-
-   /*return(
-       <div className='book-list-whole-box'>
-           <ImageList sx={{ width: 500, height: 450 }}>
-            {bookList.length > 0 ? bookList.map((booklist, index) => (
-                <BookImage key={index} bookId={booklist.id} />          
-            )): <h2>暂无书籍</h2>}
-           </ImageList>
-       </div>
-   )*/
 }
 
 export default Book

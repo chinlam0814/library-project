@@ -29,6 +29,8 @@ const MainPage = () => {
     const [stock, setStock] = useState(0)
     const [type, setType] = useState([])
     const [borrownum, setBorrownum] = useState([])
+    const [overduenum, setOverduenum] = useState([])
+    const [latenum, setLatenum] = useState([])
 
     const onChange = (date, dateString) => {
         console.log(date, dateString);
@@ -66,6 +68,10 @@ const MainPage = () => {
         if(loggedInType !== 'Student' && loggedInType !== 'Admin'){
             navigate('/login')
         }
+    }
+
+    const noStock = async () => {
+        message.warning('书籍暂无库存！')
     }
 
     const editAction = async() => {
@@ -113,19 +119,29 @@ const MainPage = () => {
 
             if(imagePath === imagesPath){
                 const data = await api.editBook(bookId, title, author, type, isbn, publisher, pubdate, stock, synopsis)
-                message.success('成功修改书籍详情！')
-                console.log(data)
-                window.location.reload(false)
+                if(data.errorCode === 404){
+                    message.error('修改失败，已有相同书名、作者和出版日期的书籍！')
+                }
+                else{
+                    message.success('成功修改书籍详情！')
+                    console.log(data)
+                    window.location.reload(false)
+                }
             }
             else{
                 const uploadData = new FormData()
                 uploadData.append('images',images)
 
-                const imageData = await api.editBookImage(bookId, uploadData)
                 const data = await api.editBook(bookId, title, author, type, isbn, publisher, pubdate, stock, synopsis)
-                message.success('成功修改书籍详情！')
-                console.log(data)
-                window.location.reload(false)
+                if(data.errorCode === 404){
+                    message.error('修改失败，已有相同书名、作者和出版日期的书籍！')
+                }
+                else{
+                    const imageData = await api.editBookImage(bookId, uploadData)
+                    message.success('成功修改书籍详情！')
+                    console.log(data)
+                    window.location.reload(false)
+                }
             }
         }
     }
@@ -139,8 +155,13 @@ const MainPage = () => {
     const borrowAction = async() => {
         console.log('borrow test')
         console.log(borrownum.length)
+        console.log(overduenum.length)
+        console.log(latenum.length)
 
-        if(borrownum.length === 5){
+        if(overduenum.length > 0 || latenum.length > 0){
+            message.error('存在逾期未归还的书籍或还未缴付逾期金额！')
+        }
+        else if(borrownum.length === 5){
             message.error('正在借阅的书籍已有5本！')
         }
         else{
@@ -188,6 +209,26 @@ const MainPage = () => {
         }
     }
 
+    const fetchOverduenum = async() => {
+        if(loggedInType === 'Student'){
+            const data = await api.getStudentOverdueStatusList(id)
+            console.log(data.data[0])
+            //num = data.data.length
+            //console.log(num)
+            return data.data
+        }
+    }
+
+    const fetchLatenum = async() => {
+        if(loggedInType === 'Student'){
+            const data = await api.getStudentLateStatusList(id)
+            console.log(data.data[0])
+            //num = data.data.length
+            //console.log(num)
+            return data.data
+        }
+    }
+
     useEffect(() => {
         const getImages = async() => {
             const imageFromServer = await fetchImages()
@@ -204,9 +245,21 @@ const MainPage = () => {
             setBorrownum(borrownumFromServer)
         }
 
+        const getOverduenum = async() => {
+            const overduenumFromServer = await fetchOverduenum()
+            setOverduenum(overduenumFromServer)
+        }
+
+        const getLatenum = async() => {
+            const latenumFromServer = await fetchLatenum()
+            setLatenum(latenumFromServer)
+        }
+
         getImages()
         getBook()
         getBorrownum()
+        getOverduenum()
+        getLatenum()
     }, [])
 
     if(loggedInType === 'Student'){
@@ -228,7 +281,7 @@ const MainPage = () => {
 
                         <br/>
                         
-                        <Button type="primary" danger>
+                        <Button type="primary" onClick={noStock} danger>
                         暂无库存
                         </Button>
                     
@@ -298,7 +351,7 @@ const MainPage = () => {
                         取消
                       </Button>,
                       ]}>
-                    <div className='mdoel-form-design'>
+                    <div className='model-form-design'>
                         
                         <br />
                         

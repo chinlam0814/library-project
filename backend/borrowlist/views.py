@@ -3,6 +3,7 @@ from bookinfo.models import BookInfo
 from .models import Borrow
 from user.models import Student
 from django.http import JsonResponse
+from django.db.models import Q
 import json
 from datetime import datetime, timedelta
 from django.utils import timezone
@@ -26,6 +27,27 @@ def student_borrow_list(request, studentId):
 	lists = Borrow.objects.filter(student = student).order_by('-id')
 	return returnJson([dict(list.body()) for list in lists])
 
+def student_borrow_list_by_search(request, number):
+	try:
+		student = Student.objects.get(number=number)
+	except Student.DoesNotExist:
+		return returnJson([],0,0,404)
+
+	lists = Borrow.objects.filter(student = student).order_by('-id')
+	return returnJson([dict(list.body()) for list in lists])
+
+def student_latest_borrow_list(request, studentId):
+	start_date = datetime.now()
+	end_date = datetime.now() + timedelta(days = 10)
+
+	try:
+		student = Student.objects.get(id=studentId)
+	except Student.DoesNotExist:
+		return returnJson([],0,0,404)
+
+	lists = Borrow.objects.filter(student = student).filter(Q(return_date__range = (start_date, end_date)) | Q(return_date__lt = start_date)).filter(status = '已借书')
+	return returnJson([dict(list.body()) for list in lists])
+
 def student_borrow_status_list(request, studentId):
 	try:
 		student = Student.objects.get(id=studentId)
@@ -33,6 +55,28 @@ def student_borrow_status_list(request, studentId):
 		return returnJson([],0,0,404)
 
 	lists = Borrow.objects.filter(student = student).filter(status = '已借书')
+	
+	return returnJson([dict(list.body()) for list in lists])
+
+def student_overdue_status_list(request, studentId):
+	try:
+		student = Student.objects.get(id=studentId)
+	except Student.DoesNotExist:
+		return returnJson([],0,0,404)
+
+	lists = Borrow.objects.filter(student = student).filter(status = '已逾期')
+	
+	return returnJson([dict(list.body()) for list in lists])
+
+def student_late_status_list(request, studentId):
+	start_date = datetime.now()
+
+	try:
+		student = Student.objects.get(id=studentId)
+	except Student.DoesNotExist:
+		return returnJson([],0,0,404)
+
+	lists = Borrow.objects.filter(student = student).filter(return_date__lt = start_date).filter(status = '已借书')
 	
 	return returnJson([dict(list.body()) for list in lists])
 

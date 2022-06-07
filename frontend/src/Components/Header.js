@@ -11,7 +11,7 @@ import BookIcon from './BookIcon.png'
 import AddBookIcon from './AddBookIcon.png'
 import AddUserIcon from './AddUserIcon.png'
 import UserListIcon from './UserListIcon.png'
-import { Input, message, Tooltip, Select } from 'antd';
+import { Input, message, Tooltip, Select, Button, AutoComplete } from 'antd';
 
 const { Option } = Select;
 
@@ -21,6 +21,88 @@ const Header = () => {
     const navigate = useNavigate()
     let loggedInType = Cookies.get('user')
     const [type, setType] = useState("title");
+    const [value, setValue] = useState("");
+
+    const options = [
+        {
+            value: '法律',
+        },
+        {
+            value: '教育',
+        },
+        {
+            value: '科技',
+        },
+        {
+            value: '科学',
+        },
+        {
+            value: '漫画',
+        },
+        {
+            value: '体育',
+        },
+        {
+            value: '文学',
+        },
+        {
+            value: '小说',
+        },
+        {
+            value: '艺术',
+        },
+        {
+            value: '医学',
+        },
+        {
+            value: '哲学',
+        },
+        {
+            value: '参考书',
+        },
+        {
+            value: '儿童读物',
+        },
+        {
+            value: '外国历史',
+        },
+        {
+            value: '外国文化',
+        },
+        {
+            value: '休闲娱乐',
+        },
+        {
+            value: '中国历史',
+        },
+        {
+            value: '中国文化',
+        },
+        {
+            value: '家具与园艺',
+        },
+        {
+            value: '家庭与育儿',
+        },
+        {
+            value: '旅游与自然',
+        },
+        {
+            value: '商业与投资',
+        },
+        {
+            value: '传记与自传',
+        },
+        {
+            value: '计算机与网络',
+        },
+        {
+            value: '宗教与精神生活',
+        },
+        {
+            value: '其他',
+        },
+    ];
 
     const onSearch = (value) => {
         //console.log(value.length)
@@ -34,11 +116,24 @@ const Header = () => {
         }
         else{
             console.log(value)
-            //setValue(value);
-            //history.push(`/search/${value}`)
             navigate(`/search/${type}/${value}`)
             window.location.reload(false)
         }
+    }
+
+    const onSearch1 = () => {
+        if(value.length === 0){
+            message.warning('请选择书籍类型！')
+        }
+        else{
+            console.log(value)
+            navigate(`/search/${type}/${value}`)
+            window.location.reload(false)
+        }
+    }
+
+    const onChange = (value) => {
+        setValue(value)
     }
 
     const logoutAction = async(e) => {
@@ -86,15 +181,30 @@ const Header = () => {
                     <Select defaultValue="title" onChange={handleChange}>
                         <Option value="title">书名</Option>
                         <Option value="author">作者</Option>
+                        <Option value="type">类型</Option>
                     </Select>   
-                    <Input.Search
-                        className='search-input'
-                        placeholder="请输入书名/作者"
-                        allowClear
-                        enterButton="搜索"
-                        size="medium"
-                        onSearch={onSearch}
-                    />
+                    {(type === "title" || type ==="author")?
+                        <Input.Search
+                            className='search-input'
+                            placeholder="请输入书名/作者"
+                            allowClear
+                            enterButton="搜索"
+                            size="medium"
+                            onSearch={onSearch}
+                        />:
+                        <AutoComplete
+                            options={options}
+                        >
+                            <Input.Search
+                                className='search-input'
+                                enterButton="搜索"
+                                placeholder="请输入书籍类型"
+                                allowClear
+                                size="medium"
+                                onSearch={onSearch}
+                            />
+                        </AutoComplete>
+                    }
                 </div>
     
                 <div className = 'hr-design'>
@@ -138,15 +248,30 @@ const Header = () => {
                     <Select defaultValue="title" onChange={handleChange}>
                         <Option value="title">书名</Option>
                         <Option value="author">作者</Option>
+                        <Option value="type">类型</Option>
                     </Select>   
-                    <Input.Search
-                        className='search-input'
-                        placeholder="请输入书名/作者"
-                        allowClear
-                        enterButton="搜索"
-                        size="medium"
-                        onSearch={onSearch}
-                    />
+                    {(type === "title" || type ==="author")?
+                        <Input.Search
+                            className='search-input'
+                            placeholder="请输入书名/作者"
+                            allowClear
+                            enterButton="搜索"
+                            size="medium"
+                            onSearch={onSearch}
+                        />:
+                        <AutoComplete
+                            options={options}
+                        >
+                            <Input.Search
+                                className='search-input'
+                                enterButton="搜索"
+                                placeholder="请输入书籍类型"
+                                allowClear
+                                size="medium"
+                                onSearch={onSearch}
+                            />
+                        </AutoComplete>
+                    }
                 </div>
     
                 <div className = 'hr-design'>
@@ -172,15 +297,30 @@ const Header = () => {
                     <Select defaultValue="title" onChange={handleChange}>
                         <Option value="title">书名</Option>
                         <Option value="author">作者</Option>
+                        <Option value="type">类型</Option>
                     </Select>   
-                    <Input.Search
-                        className='search-input'
-                        placeholder="请输入书名/作者"
-                        allowClear
-                        enterButton="搜索"
-                        size="medium"
-                        onSearch={onSearch}
-                    />
+                    {(type === "title" || type ==="author")?
+                        <Input.Search
+                            className='search-input'
+                            placeholder="请输入书名/作者"
+                            allowClear
+                            enterButton="搜索"
+                            size="medium"
+                            onSearch={onSearch}
+                        />:
+                        <AutoComplete
+                            options={options}
+                        >
+                            <Input.Search
+                                className='search-input'
+                                enterButton="搜索"
+                                placeholder="请输入书籍类型"
+                                allowClear
+                                size="medium"
+                                onSearch={onSearch}
+                            />
+                        </AutoComplete>
+                    }
             </div>
 
             <div className = 'hr-design'>

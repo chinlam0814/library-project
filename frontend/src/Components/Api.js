@@ -197,6 +197,11 @@ class Api{
 		return data;
 	}
 
+	getSearchBookByType = async (searchword) => {
+		let data = await this.post(`/book/search/type/`, {searchword});
+		return data;
+	}
+
 	// done: admin can create book
 	createBook = async (title, author, isbn, publisher, pubdate, type, synopsis, stock) => {
 		//login required
@@ -265,8 +270,28 @@ class Api{
 		return data;
 	}
 
+	getStudentBorrowListBySearch = async (number) => {
+		let data = await this.get(`/borrow/student/${number}/search/`);
+		return data;
+	}
+
+	getStudentLatestBorrowList = async (studentId) => {
+		let data = await this.get(`/borrow/student/${studentId}/latest/`);
+		return data;
+	}
+
 	getStudentBorrowStatusList = async (studentId) => {
 		let data = await this.get(`/borrow/student/${studentId}/borrowed/`);
+		return data;
+	}
+
+	getStudentOverdueStatusList = async (studentId) => {
+		let data = await this.get(`/borrow/student/${studentId}/overdue/`);
+		return data;
+	}
+
+	getStudentLateStatusList = async (studentId) => {
+		let data = await this.get(`/borrow/student/${studentId}/late/`);
 		return data;
 	}
 

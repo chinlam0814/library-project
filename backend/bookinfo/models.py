@@ -50,12 +50,12 @@ class BookInfo(models.Model):
         (ENTERTAINMENT, '休闲娱乐'),
         (CHINA_HISTORY, '中国历史'),
         (CHINESE_CULTURE, '中国文化'),
-        (INFORMATION_TECHNOLOGY, '计算机与网络'),
         (HOME_GARDENING, '家居与园艺'),
         (FAMILY_PARENTING, '家庭与育儿'),
         (TRAVEL_NATURE, '旅游与自然'),
         (BUSINESS, '商业与投资'),
         (BIOGRAPHY, '传记与自传'),
+        (INFORMATION_TECHNOLOGY, '计算机与网络'),
         (RELIGION, '宗教与精神生活'),
         (OTHERS, '其他'),
     ]
@@ -65,7 +65,7 @@ class BookInfo(models.Model):
     isbn = models.CharField(null = False, max_length = 100)
     publisher = models.CharField(null = False, max_length = 100)
     pubdate = models.DateField(null = True)
-    type = models.CharField(max_length = 50, choices = CATEGORIES, default = LAW)
+    type = models.CharField(null = True, max_length = 50, choices = CATEGORIES, default = LAW)
     stock = models.IntegerField(null = True, default=0)
     synopsis = models.TextField(null = True, max_length=501)
 
