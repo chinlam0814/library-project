@@ -43,15 +43,27 @@ const AddUserPage = () => {
         else{
             if(type === 'Admin'){
                 var data
-                data = await api.createAdmin(username, password, number)
+                data = await api.createAdmin(number, password, username)
                 console.log(data)
-                window.location.reload(false)
+
+                if(data.errorCode === 400){
+                    message.error('管理员号已存在账号！')
+                }
+                else{
+                    window.location.reload(false)
+                }
             }
             else{
                 var data
-                data = await api.createStudent(username, password, number)
+                data = await api.createStudent(number, password, username)
                 console.log(data)
-                window.location.reload(false)
+
+                if(data.errorCode === 400){
+                    message.error('学号已存在账号！')
+                }
+                else{
+                    window.location.reload(false)
+                }
             }
         }
     }

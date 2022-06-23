@@ -78,14 +78,14 @@ const LoginPage = () => {
 
                     <Form {...formItemLayout}>
                         <Form.Item
-                            label="学生/管理员姓名"
+                            label="学号/管理员号"
                             name="username"
                             rules={[{ required: true, message: '请输入学生/管理员姓名' }]}
                         >
                             <Input 
                                 prefix={<UserOutlined />}
                                 onChange={event => setUsername(event.target.value)}
-                                placeholder="请输入学生/管理员姓名"/>
+                                placeholder="请输入学号/管理员号"/>
                         </Form.Item>
 
                         <Form.Item

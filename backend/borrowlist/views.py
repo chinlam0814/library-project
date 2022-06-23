@@ -27,9 +27,9 @@ def student_borrow_list(request, studentId):
 	lists = Borrow.objects.filter(student = student).order_by('-id')
 	return returnJson([dict(list.body()) for list in lists])
 
-def student_borrow_list_by_search(request, number):
+def student_borrow_list_by_search(request, username):
 	try:
-		student = Student.objects.get(number=number)
+		student = Student.objects.get(username=username)
 	except Student.DoesNotExist:
 		return returnJson([],0,0,404)
 
@@ -142,4 +142,3 @@ def edit_paid_status(request, borrowId):
 		borrow.save()
 
 		return returnJson([dict(borrow.body())])
-

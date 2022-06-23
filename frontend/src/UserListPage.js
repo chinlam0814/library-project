@@ -29,6 +29,10 @@ const UserListPage = () => {
         navigate(`/edit/${type}/${userId}`)
     };
 
+    const onSearch = async(value) => {
+        console.log(value)
+    }
+
     const fetchStudentList = async() => {
         const data = await api.getStudentList()
         console.log(data.data)
@@ -100,9 +104,9 @@ const UserListPage = () => {
                                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                         >
                                         <TableCell component="th" scope="row" align="center">
-                                            {adminlist.number}
+                                            {adminlist.username}
                                         </TableCell>
-                                            <TableCell align="center">{adminlist.username}</TableCell>
+                                            <TableCell align="center">{adminlist.name}</TableCell>
                                             <TableCell align="center">
                                                 <button className='delete-user-button' onClick={() => deleteAdminAction(adminlist.id)} >删除</button>
                                                 <button className='update-user-button' onClick={() => editAction(adminlist.id, 'admin')} >编辑</button>
@@ -130,9 +134,9 @@ const UserListPage = () => {
                                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                         >
                                         <TableCell component="th" scope="row" align="center">
-                                            {studentlist.number}
+                                            {studentlist.username}
                                         </TableCell>
-                                            <TableCell align="center">{studentlist.username}</TableCell>
+                                            <TableCell align="center">{studentlist.name}</TableCell>
                                             <TableCell align="center">
                                                 <button className='delete-user-button' onClick={() => deleteStudentAction(studentlist.id)} >删除</button>
                                                 <button className='update-user-button' onClick={() => editAction(studentlist.id, 'student')} >编辑</button>

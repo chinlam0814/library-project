@@ -54,11 +54,11 @@ def user_login(request):
 		login(request, user)
 		try:
 			student = Student.objects.get(username = username)
-			return returnJson([dict(student.body())], 0, {'user': 'Student', 'user_id': student.id, 'student_idnumber': student.number, 'username' : username, 'borrow_num': student.borrow_num})
+			return returnJson([dict(student.body())], 0, {'user': 'Student', 'user_id': student.id, 'student_username': student.username, 'student_name' : student.name, 'borrow_num': student.borrow_num})
 		except Student.DoesNotExist:
 			try : 
 				admin = Admin.objects.get(username = username)
-				return returnJson([dict(admin.body())], 0, {'user': 'Admin', 'user_id': admin.id, 'admin_idnumber': admin.number, 'username' : username})
+				return returnJson([dict(admin.body())], 0, {'user': 'Admin', 'user_id': admin.id, 'admin_username': admin.username, 'admin_name' : admin.name})
 			except Admin.DoesNotExist:
 				logout(request)
 				return returnJson([],404)
@@ -84,7 +84,7 @@ def create_student(request):
 			student = Student.objects.create()
 			student.username = data["username"]
 			student.set_password(data["password"])
-			student.number = data["number"]
+			student.name = data["name"]
 			student.borrow_num = "0"
 
 			student.save()
@@ -129,7 +129,7 @@ def create_admin(request):
 			admin = Admin.objects.create()
 			admin.username = data["username"]
 			admin.set_password(data["password"])
-			admin.number = data["number"]
+			admin.name = data["name"]
 
 			admin.save()
 			return returnJson([dict(admin.body())])
@@ -144,8 +144,10 @@ def edit_student_info(request, pk):
 
 	if request.method == 'POST':
 		data = json.loads(request.body)
+
 		
-		student.number = data["number"]
+		
+		student.name = data["name"]
 		student.username = data["username"]
 
 		student.save()
@@ -161,7 +163,7 @@ def edit_admin_info(request, pk):
 	if request.method == 'POST':
 		data = json.loads(request.body)
 		
-		admin.number = data["number"]
+		admin.name = data["name"]
 		admin.username = data["username"]
 
 		admin.save()
@@ -208,7 +210,7 @@ def admin_forget_password(request):
 	data = json.loads(request.body)
 	
 	try:
-		admin = Admin.objects.get(number=data["number"])
+		admin = Admin.objects.get(username=data["username"])
 	except Admin.DoesNotExist:
 		return returnJson([], 404)
 
@@ -221,7 +223,7 @@ def student_forget_password(request):
 	data = json.loads(request.body)
 	
 	try:
-		student = Student.objects.get(number=data["number"])
+		student = Student.objects.get(username=data["username"])
 	except Student.DoesNotExist:
 		return returnJson([], 404)
 

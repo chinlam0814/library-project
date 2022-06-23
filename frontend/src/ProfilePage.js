@@ -5,13 +5,16 @@ import api from './Components/Api'
 import Cookies from 'js-cookie'
 import Footer from './Components/Footer'
 import Header from './Components/Header'
-import { Descriptions, Tooltip, Button, Modal, Form, Input, message } from 'antd';
+import { Select, Descriptions, Tooltip, Button, Modal, Form, Input, message } from 'antd';
+
+const { Option } = Select;
 
 const ProfilePage = () => {
     let id = Cookies.get('user_id')
     let loggedInType = Cookies.get('user')
     const navigate = useNavigate()
     const [isModalVisible, setIsModalVisible] = useState(false);
+    const [isModalVisible1, setIsModalVisible1] = useState(false);
 
     var num;
     const [student, setStudent] = useState([])
@@ -19,6 +22,8 @@ const ProfilePage = () => {
     const [password, setPassword] = useState([])
     const [password1, setPassword1] = useState([])
     const [borrownum, setBorrownum] = useState([])
+    const [question, setQuestion] = useState([])
+    const [answer, setAnswer] = useState([])
 
     const showModal = () => {
         setIsModalVisible(true);
@@ -139,8 +144,8 @@ const ProfilePage = () => {
                         bordered
                         title="管理员信息"
                     >
-                        <Descriptions.Item label="管理员号" span={5}>{admin.number}</Descriptions.Item>
-                        <Descriptions.Item label="姓名" span={5}>{admin.username}</Descriptions.Item>
+                        <Descriptions.Item label="管理员号" span={5}>{admin.username}</Descriptions.Item>
+                        <Descriptions.Item label="姓名" span={5}>{admin.name}</Descriptions.Item>
                     </Descriptions>
                     <br />
 
@@ -196,13 +201,13 @@ const ProfilePage = () => {
                     bordered
                     title="学生信息"
                 >
-                    <Descriptions.Item label="学生号" span={5}>{student.number}</Descriptions.Item>
-                    <Descriptions.Item label="姓名" span={5}>{student.username}</Descriptions.Item>
+                    <Descriptions.Item label="学生号" span={5}>{student.username}</Descriptions.Item>
+                    <Descriptions.Item label="姓名" span={5}>{student.name}</Descriptions.Item>
                     <Descriptions.Item label="正在借阅书籍的数量" span={5}>{borrownum.length}</Descriptions.Item>
                 </Descriptions>
                 <br />
 
-                <Button type="primary" onClick={showModal}>
+                <Button type="primary" onClick={showModal} className='change-button'>
                     修改密码
                 </Button>
                 <Modal title="修改密码" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}

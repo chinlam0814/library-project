@@ -63,7 +63,7 @@ const StudentBorrowListPage = () => {
                                     key={id}
                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                 >
-                                    <TableCell align="center">{borrowlist.student.username}</TableCell>
+                                    <TableCell align="center">{borrowlist.student.name}</TableCell>
                                     <TableCell align="center">{borrowlist.bookinfo.title}</TableCell>
                                     <TableCell align="center">{borrowlist.bookinfo.author}</TableCell>
                                     <TableCell align="center">{borrowlist.status}</TableCell>

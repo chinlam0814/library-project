@@ -108,22 +108,26 @@ const Header = () => {
         //console.log(value.length)
 
         if(value.length === 0){
-            message.warning('请输入书名/作者！')
-            console.log('null')
+            if(type === 'title'){
+                message.warning('请输入书名！')
+            }
+            else if(type === 'author'){
+                message.warning('请输入作者！')
+            }
+            else{
+                message.warning('请输入书籍类型！')
+            }
         }
         else if(value.indexOf(' ') !== -1){
-            message.warning('输入的书名/作者不能含有空格！')
-        }
-        else{
-            console.log(value)
-            navigate(`/search/${type}/${value}`)
-            window.location.reload(false)
-        }
-    }
-
-    const onSearch1 = () => {
-        if(value.length === 0){
-            message.warning('请选择书籍类型！')
+            if(type === 'title'){
+                message.warning('输入的书名不能含有空格！')
+            }
+            else if(type === 'author'){
+                message.warning('输入的作者不能含有空格！')
+            }
+            else{
+                message.warning('输入的类型不能含有空格！')
+            }
         }
         else{
             console.log(value)
@@ -149,9 +153,11 @@ const Header = () => {
             message.loading('正在登出...', 1)
             .then(() => message.success('登出成功！', 2.5))
             navigate('/')
+            window.location.reload(false)
         }
 
         navigate('/')
+        window.location.reload(false)
     }
 
     const handleChange = (value) => {
@@ -183,10 +189,18 @@ const Header = () => {
                         <Option value="author">作者</Option>
                         <Option value="type">类型</Option>
                     </Select>   
-                    {(type === "title" || type ==="author")?
+                    {(type === "title")?
                         <Input.Search
                             className='search-input'
-                            placeholder="请输入书名/作者"
+                            placeholder="请输入书名"
+                            allowClear
+                            enterButton="搜索"
+                            size="medium"
+                            onSearch={onSearch}
+                        />:((type === 'author')?
+                        <Input.Search
+                            className='search-input'
+                            placeholder="请输入作者"
                             allowClear
                             enterButton="搜索"
                             size="medium"
@@ -203,7 +217,7 @@ const Header = () => {
                                 size="medium"
                                 onSearch={onSearch}
                             />
-                        </AutoComplete>
+                        </AutoComplete>)
                     }
                 </div>
     
@@ -250,10 +264,18 @@ const Header = () => {
                         <Option value="author">作者</Option>
                         <Option value="type">类型</Option>
                     </Select>   
-                    {(type === "title" || type ==="author")?
+                    {(type === "title")?
                         <Input.Search
                             className='search-input'
-                            placeholder="请输入书名/作者"
+                            placeholder="请输入书名"
+                            allowClear
+                            enterButton="搜索"
+                            size="medium"
+                            onSearch={onSearch}
+                        />:((type === 'author')?
+                        <Input.Search
+                            className='search-input'
+                            placeholder="请输入作者"
                             allowClear
                             enterButton="搜索"
                             size="medium"
@@ -270,7 +292,7 @@ const Header = () => {
                                 size="medium"
                                 onSearch={onSearch}
                             />
-                        </AutoComplete>
+                        </AutoComplete>)
                     }
                 </div>
     
@@ -299,10 +321,18 @@ const Header = () => {
                         <Option value="author">作者</Option>
                         <Option value="type">类型</Option>
                     </Select>   
-                    {(type === "title" || type ==="author")?
+                    {(type === "title")?
                         <Input.Search
                             className='search-input'
-                            placeholder="请输入书名/作者"
+                            placeholder="请输入书名"
+                            allowClear
+                            enterButton="搜索"
+                            size="medium"
+                            onSearch={onSearch}
+                        />:((type === 'author')?
+                        <Input.Search
+                            className='search-input'
+                            placeholder="请输入作者"
                             allowClear
                             enterButton="搜索"
                             size="medium"
@@ -319,7 +349,7 @@ const Header = () => {
                                 size="medium"
                                 onSearch={onSearch}
                             />
-                        </AutoComplete>
+                        </AutoComplete>)
                     }
             </div>
 

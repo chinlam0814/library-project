@@ -4,8 +4,8 @@ from .models import Admin, Student
 
 @admin.register(Admin)
 class AdminAdmin(admin.ModelAdmin):
-	list_display = ('id', 'username', 'number')
+	list_display = ('id', 'username', 'name')
 
 @admin.register(Student)
 class StudentAdmin(admin.ModelAdmin):
-	list_display = ('id', 'username', 'number')
+	list_display = ('id', 'username', 'name')

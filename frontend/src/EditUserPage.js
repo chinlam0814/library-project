@@ -4,14 +4,16 @@ import api from './Components/Api'
 import Footer from './Components/Footer'
 import Header from './Components/Header'
 import './EditUserPage.css'
-import { Descriptions, Radio, Button, Modal, Form, Input, message } from 'antd';
+import { Card, Button, Typography, Form, Input, message } from 'antd';
+
+const { Text} = Typography;
 
 const EditUserPage = () => {
     let {userId, type} = useParams()
     const navigate = useNavigate()
     const [user, setUser] = useState([])
-    const [number1, setNumber1] = useState([])
-    const [username1, setUsername1] = useState([])
+    const [name, setName] = useState([])
+    const [username, setUsername] = useState([])
 
     const formItemLayout = {
         labelCol: { span: 5 },
@@ -22,26 +24,25 @@ const EditUserPage = () => {
         navigate('/users')
     }
 
-    const editAction = async(number1, username1) => {
+    const editAction = async(username, name) => {
         if(type ==='admin'){
-            if(number1.length === 0){
+            if(username.length === 0){
                 message.error('新管理员号不为空！')
             }
-            else if(number1.length < 8){
+            else if(username.length < 8){
                 message.error('新管理员号位数需为8！')
             }
-            else if(number1.indexOf(' ') !== -1){
+            else if(username.indexOf(' ') !== -1){
                 message.error('新管理员号不能含有空格！')
             }
-            else if(username1.length === 0){
+            else if(name.length === 0){
                 message.error('新管理员姓名不能为空！')
             }
-            else if(username1.indexOf(' ') !== -1){
+            else if(name.indexOf(' ') !== -1){
                 message.error('新管理员姓名不能含有空格！')
             }
             else{
-                console.log(number1+ ' ' + username1)
-                const data = await api.editAdmin(userId, number1, username1)
+                const data = await api.editAdmin(userId, name, username)
                 console.log(data)
                 if(data.errorCode === 0){
                     message.success('修改成功！')
@@ -50,24 +51,23 @@ const EditUserPage = () => {
             }
         }
         else{
-            if(number1.length === 0){
+            if(username.length === 0){
                 message.error('新学号不为空！')
             }
-            else if(number1.length < 8){
+            else if(username.length < 8){
                 message.error('新学号位数需为8！')
             }
-            else if(number1.indexOf(' ') !== -1){
+            else if(username.indexOf(' ') !== -1){
                 message.error('新学号不能含有空格！')
             }
-            else if(username1.length === 0){
+            else if(name.length === 0){
                 message.error('新学生姓名不能为空！')
             }
-            else if(username1.indexOf(' ') !== -1){
+            else if(name.indexOf(' ') !== -1){
                 message.error('新学生姓名不能含有空格！')
             }
             else{
-                console.log(number1 + ' ' + username1)
-                const data = await api.editStudent(userId, number1, username1)
+                const data = await api.editStudent(userId, name, username)
                 console.log(data)
                 if(data.errorCode === 0){
                     message.success('修改成功！')
@@ -80,6 +80,7 @@ const EditUserPage = () => {
     const fetchUser = async() => {
         if(type === 'student'){
             const data = await api.getStudent(userId)
+            console.log(data.data[0])
             return data.data[0]
         }
         else{
@@ -101,35 +102,45 @@ const EditUserPage = () => {
         return(
             <div>
                 <Header />
+
+                <div className='warn-text-whole-box'>
+                    <Card style={{ width: 300 }} className='warn-text-box'>
+                            <Text type='danger' level={3}>账号原信息：</Text>
+                            <br />
+                            <br />
+                            <Text>学号：{user.username}</Text>
+                            <br />
+                            <Text>姓名：{user.name}</Text>
+                    </Card> 
+                </div>
     
                 <div className='edit-user-box'>
                     <h1 className='edit-user-title'>编辑管理员信息</h1>
 
-                    <Form {...formItemLayout}
-                    initialValues={{
-                        'number1': number1,
-                        'username1': username1,
-                    }}>
+
+                    <br />
+
+                    <Form {...formItemLayout}>
                         <Form.Item
                             label="管理员号"
-                            name="number1"
+                            name="username"
                             rules={[{ required: true, message: '请输入新管理员号' }]}
                         >
                             <Input 
                             //defaultValue={number}
-                            onChange={event => setNumber1(event.target.value)}
+                            onChange={event => setUsername(event.target.value)}
                             placeholder="请输入新管理员号"
                             />
                         </Form.Item>
     
                         <Form.Item
                             label="管理员姓名"
-                            name="username1"
+                            name="name"
                             rules={[{ required: true, message: '请输入新管理员姓名' }]}
                         >
                             <Input 
                                 //defaultValue={username}
-                                onChange={event => setUsername1(event.target.value)}
+                                onChange={event => setName(event.target.value)}
                                 placeholder="请输入新管理员姓名"
                             />
                         </Form.Item>
@@ -138,7 +149,7 @@ const EditUserPage = () => {
                             wrapperCol={{ offset: 5, span: 16 }}
                             name="edit-button"
                         >
-                            <Button className='edit-user-button' type='primary' onClick={() => editAction(number1, username1)}>编辑</Button>
+                            <Button className='edit-user-button' type='primary' onClick={() => editAction(username, name)}>编辑</Button>
                             <Button type='primary' danger onClick={backAction}>取消</Button>
                         </Form.Item>
 
@@ -154,34 +165,43 @@ const EditUserPage = () => {
         <div>
             <Header />
 
+            <div className='warn-text-whole-box'>
+                <Card style={{ width: 300 }} className='warn-text-box'>
+                        <Text type='danger' level={3}>账号原信息：</Text>
+                        <br />
+                        <br />
+                        <Text>学号：{user.username}</Text>
+                        <br />
+                        <Text>姓名：{user.name}</Text>
+                </Card> 
+            </div>
+
             <div className='edit-user-box'>
                 <h1 className='edit-user-title'>编辑学生信息</h1>
 
-                <Form {...formItemLayout}
-                initialValues={{
-                    'number1': user.number,
-                    'username1': user.username,
-                }}>
+                <br />
+
+                <Form {...formItemLayout}>
                     <Form.Item
                         label="学号"
-                        name="number1"
+                        name="username"
                         rules={[{ required: true, message: '请输入新学号' }]}
                     >
                         <Input 
                         //defaultValue={number}
-                        onChange={event => setNumber1(event.target.value)}
+                        onChange={event => setUsername(event.target.value)}
                         placeholder="请输入新学号"
                         />
                     </Form.Item>
 
                     <Form.Item
                         label="学生姓名"
-                        name="username1"
+                        name="name"
                         rules={[{ required: true, message: '请输入新学生姓名' }]}
                     >
                         <Input 
                             //defaultValue={username}
-                            onChange={event => setUsername1(event.target.value)}
+                            onChange={event => setName(event.target.value)}
                             placeholder="请输入新学生姓名"
                         />
                     </Form.Item>
@@ -190,7 +210,7 @@ const EditUserPage = () => {
                         wrapperCol={{ offset: 5, span: 16 }}
                         name="edit-button"
                     >
-                        <Button className='edit-user-button' type='primary' onClick={() => editAction(number1, username1)}>编辑</Button>
+                        <Button className='edit-user-button' type='primary' onClick={() => editAction(username, name)}>编辑</Button>
                         <Button type='primary' danger onClick={backAction}>取消</Button>
                     </Form.Item>
 

@@ -115,7 +115,7 @@ const BorrowListPage = () => {
                     <Input.Search 
                         className='id-search-box'
                         enterButton="搜索"
-                        placeholder="请输入书籍类型"
+                        placeholder="请输入学号"
                         allowClear
                         size="medium"
                         onSearch={onSearch}/>
@@ -144,9 +144,9 @@ const BorrowListPage = () => {
                                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                     >
                                     <TableCell component="th" scope="row" align="center">
-                                        {allborrowlist.student.number}
+                                        {allborrowlist.student.username}
                                     </TableCell>
-                                        <TableCell align="center">{allborrowlist.student.username}</TableCell>
+                                        <TableCell align="center">{allborrowlist.student.name}</TableCell>
                                         <TableCell align="center">{allborrowlist.bookinfo.title}</TableCell>
                                         <TableCell align="center">{allborrowlist.bookinfo.author}</TableCell>
                                         <TableCell align="center">{allborrowlist.status}</TableCell>
@@ -169,6 +169,7 @@ const BorrowListPage = () => {
             <Header />
             <div className='table-list'>
                 <h1>借阅记录</h1>
+
                 <TableContainer component={Paper}>
                     <Table sx={{ minWidth: 650 }} aria-label="simple table">
                         <TableHead>

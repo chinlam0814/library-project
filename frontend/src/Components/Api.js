@@ -107,8 +107,8 @@ class Api{
     }
 
 	// done: create student account
-	createStudent = async (username, password, number) => {
-		let data = await this.post(`/user/students/create/`,{username, password, number});
+	createStudent = async (username, password, name) => {
+		let data = await this.post(`/user/students/create/`,{name, password, username});
 		return data;
 	}
 
@@ -118,14 +118,9 @@ class Api{
 		return data;
 	}
 
-	updateStudent = async (studentId, number, username) => {
-		let data = await this.put(`/user/students/${studentId}/edit/`, {number, username});
-		return data;
-	}
-
 	// done: create admin account
-	createAdmin = async (username, password, number) => {
-		let data = await this.post(`/user/admins/create/`,{username, password, number});
+	createAdmin = async (username, password, name) => {
+		let data = await this.post(`/user/admins/create/`,{name, password, username});
 		return data;
 	}
 
@@ -135,13 +130,14 @@ class Api{
 	}
 
 	// done: admin can update admin account
-	editAdmin = async (adminId, number, username) => {
-		let data = await this.post(`/user/admins/${adminId}/edit/`, {number, username});
+	editAdmin = async (adminId, name, username) => {
+		let data = await this.post(`/user/admins/${adminId}/edit/`, {username, name});
 		return data;
 	}
 
-	editStudent = async (studentId, number, username) => {
-		let data = await this.post(`/user/students/${studentId}/edit/`, {number, username});
+	// done: admin can update student account
+	editStudent = async (studentId, name, username) => {
+		let data = await this.post(`/user/students/${studentId}/edit/`, {username, name});
 		return data;
 	}
 
@@ -151,8 +147,9 @@ class Api{
 		return data;
 	}
 
-	forgetPasswordAdmin = async (number, password) => {
-		let data = await this.put(`/user/admins/forgetpassword/`,{number, password});
+	// done: without login admin can change password
+	forgetPasswordAdmin = async (username, password) => {
+		let data = await this.put(`/user/admins/forgetpassword/`,{username, password});
 		return data;
 	}
 
@@ -162,8 +159,9 @@ class Api{
 		return data;
 	}
 
-	forgetPasswordStudent = async (number, password) => {
-		let data = await this.put(`/user/students/forgetpassword/`,{number, password});
+	// done: without login student can change password
+	forgetPasswordStudent = async (username, password) => {
+		let data = await this.put(`/user/students/forgetpassword/`,{username, password});
 		return data;
 	}
 
@@ -270,8 +268,8 @@ class Api{
 		return data;
 	}
 
-	getStudentBorrowListBySearch = async (number) => {
-		let data = await this.get(`/borrow/student/${number}/search/`);
+	getStudentBorrowListBySearch = async (username) => {
+		let data = await this.get(`/borrow/student/${username}/search/`);
 		return data;
 	}
 
